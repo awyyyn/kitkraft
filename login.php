@@ -2,25 +2,34 @@
 
     include_once "./db_connection.php";
     session_start();
-
-
-    $error = "";
-
+  
     if(isset($_POST['login_button'])){
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = "SELECT * FROM users WHERE username='$email' AND password='$password' LIMIT 1";
+        $checkUsername = "SELECT * FROM users WHERE username='$username' LIMIT 1";
+ 
+        $checkUsernameResult = mysqli_query($conn, $checkUsername);
+        
+        $isExist = mysqli_fetch_assoc($checkUsernameResult); 
+        
+        if($isExist){ 
+            $sql = "SELECT * FROM users WHERE username='$username' AND password='$password' LIMIT 1";
+            $query = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_assoc($query);
+            if($row){
+                echo $row['username'];
+                $_SESSION['user_id'] = $row['user_id'];
+                $_SESSION['user_type'] = $row['user_type'];
+                header("Location: ./student/index.php");
+            }else{
+                echo "Invalid credentials";
+                header("Location: ./login.php?error=invalid_credentials");
+            }
 
-        $result = mysqli_query($conn, $sql);
-
-        if($result){
-            $row = mysqli_fetch_assoc($result);
-            $_SESSION['user_id'] = $row['user_id'];
-            // $_SESSION['user_info'] = $row;
-            header("location: ./index.php");
         }else{
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            echo "Username not found";
+            header("Location: ./login.php?error=username_not_found");
         }
     }
 
@@ -44,26 +53,37 @@
         <section class="rounded-lg shadow-lg p-5 max-w-[400px] min-w-[375px]  bg-white">
             <!-- <h1 class="brand">KITKRAFT</h1> --> 
             <form method="post">
-                <div class="gap-y-5 flex flex-col py-3">
-                    <?php 
-                        if($error){
-                            echo "<h1>$error</h1>";
-                        }
-                    ?>
-                    <h1 class="text-3xl font-bold text-center ">Log in </h1>
-    
+                <div class="gap-y-5 flex flex-col py-3"> 
+                    <h1 class="text-3xl font-bold text-center ">Log in </h1> 
                     <div class="group flex flex-col w-full relative space-y-2 ">
                         <label>Username:</label>
-                        <input class="p-2 focus:outline-none border-2 rounded-md  " type="text" name="username" placeholder="Enter your username" />  
+                        <input 
+                            required 
+                            class="p-2 focus:outline-none border-2 rounded-md  " 
+                            type="text" 
+                            name="username" 
+                            placeholder="Enter your username" 
+                        />  
                     </div>
     
                     <div class="group flex flex-col w-full relative space-y-2 ">
                         <label>Password</label>
-                        <input class="p-2  focus:outline-none border-2 rounded-md  " type="password" name="password" placeholder="Enter your password" />
+                        <input 
+                            required 
+                            class="p-2  focus:outline-none border-2 rounded-md  " 
+                            type="password" 
+                            name="password" 
+                            placeholder="Enter your password" 
+                        />
                         
                     </div> 
     
-                    <input type="submit" class="hover:shadow-xl cursor-pointer transition-shadow bg-[#A93545] w-full py-2 mt-2 rounded-lg text-white text-center" value="Log in" name="login_button" />
+                    <input 
+                        type="submit" 
+                        class="hover:shadow-xl cursor-pointer transition-shadow bg-[#A93545] w-full py-2 mt-2 rounded-lg text-white text-center" 
+                        value="Log in" 
+                        name="login_button" 
+                    />
                     
                     <a href="./create-account.php" class="text-center hover:underline text-sm">Create Account</a>
                 </div>
