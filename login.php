@@ -2,33 +2,61 @@
 
     include_once "./db_connection.php";
     session_start();
+    
+    /* check if user/admin is already logged in */
+    /* if session user_id is not empty -----  */
+    if(!empty($_SESSION['user_id'])){
+        
+        /* ---- check if the logged in account is user or admin  */
+        if($_SESSION['user_type'] == 'A'){
+            /* if admin, redirect to admin panel */
+            header("location: ./admin/index.php");
+        }else{
+            /* if user, redirect to user panel */
+            header("location: ./user/index.php");
+        }
+    }
+
   
     if(isset($_POST['login_button'])){
+        
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $checkUsername = "SELECT * FROM users WHERE username='$username' LIMIT 1";
- 
+        /* QUERY */
+        $checkUsername = "SELECT * FROM users WHERE username='$username' LIMIT 1;";
+        
+        /* EXECUTE */
         $checkUsernameResult = mysqli_query($conn, $checkUsername);
         
+        /* FETCH */
         $isExist = mysqli_fetch_assoc($checkUsernameResult); 
         
+
         if($isExist){ 
-            $sql = "SELECT * FROM users WHERE username='$username' AND password='$password' LIMIT 1";
+            $sql = "SELECT * FROM users WHERE username='$username' AND password='$password' LIMIT 1;";
             $query = mysqli_query($conn, $sql);
             $row = mysqli_fetch_assoc($query);
+
             if($row){
-                echo $row['username'];
+                
                 $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['user_type'] = $row['user_type'];
-                header("Location: ./student/index.php");
+
+                /* strtoupper converts string to uppercase */
+                /* if user_type equals to A then redirect to admin panel */
+                /* else redirect to to student */
+                if(strtoupper($row['user_type']) == 'A')
+                    header("Location: ./admin/index.php");
+                else{ 
+                    header("Location: ./user/index.php");
+                }
             }else{
-                echo "Invalid credentials";
+                 
                 header("Location: ./login.php?error=invalid_credentials");
             }
 
-        }else{
-            echo "Username not found";
+        }else{  
             header("Location: ./login.php?error=username_not_found");
         }
     }
@@ -41,54 +69,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KitKraft | Log in</title>
     
+ 
+    <!-- BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="./bootstrap/bootstrap.min.css">  
+    
     <!-- CUSTOM CSS -->
-    <link rel="stylesheet" href="./styles/index.css">
-
-    <!-- TAILWIND CSS -->
-    <script src="./scripts/tailwindcss.js"></script> 
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+    
 </head>
-<body>
-    <main class="h-screen w-screen min-h-[500px] min-w-[375px] bg-[#FF92E855] grid place-content-center relative">
-        <image src="./assets/logo.png" class="h-40 w-60 mix-blend-darken absolute top-5 md:left-10 -translate-x-[50%] md:translate-x-0 left-[50%] " />
-        <section class="rounded-lg shadow-lg p-5 max-w-[400px] min-w-[375px]  bg-white">
+<body > 
+        <!-- <image src="./assets/logo.png" class="h-40 w-60 mix-blend-darken absolute top-5 md:left-10 -translate-x-[50%] md:translate-x-0 left-[50%] " /> -->
+    <div class="position-relative container-fluid justify-content-center d-flex margin-top w-full">
+        <div class="border p-5 bg-white  margin-top min-width">
             <!-- <h1 class="brand">KITKRAFT</h1> --> 
             <form method="post">
-                <div class="gap-y-5 flex flex-col py-3"> 
-                    <h1 class="text-3xl font-bold text-center ">Log in </h1> 
-                    <div class="group flex flex-col w-full relative space-y-2 ">
-                        <label>Username:</label>
+                <div class="d-flex flex-column py-2"> 
+                    <h1 class=" text-center ">Log in </h1> 
+                    <div class="form-group  mt-4">
+                        <label for="username">Username</label>
                         <input 
-                            required 
-                            class="p-2 focus:outline-none border-2 rounded-md  " 
+                            id="username"
+                            required  
                             type="text" 
                             name="username" 
                             placeholder="Enter your username" 
-                        />  
+                            class="form-control form-control-lg" >
                     </div>
-    
-                    <div class="group flex flex-col w-full relative space-y-2 ">
-                        <label>Password</label>
+
+                    <div class="form-group  mt-4">
+                        <label for="password">Password</label>
                         <input 
-                            required 
-                            class="p-2  focus:outline-none border-2 rounded-md  " 
+                            id="password"
+                            required  
                             type="password" 
                             name="password" 
                             placeholder="Enter your password" 
-                        />
-                        
-                    </div> 
-    
+                            class="form-control form-control-lg" >
+                    </div>
+ 
                     <input 
                         type="submit" 
-                        class="hover:shadow-xl cursor-pointer transition-shadow bg-[#A93545] w-full py-2 mt-2 rounded-lg text-white text-center" 
+                        class="py-2  mt-4 btn btn-danger" 
                         value="Log in" 
                         name="login_button" 
                     />
-                    
-                    <a href="./create-account.php" class="text-center hover:underline text-sm">Create Account</a>
+                        
+                    <div class="w-100 d-block mt-3 text-center ">                   
+                        <a href="./create-account.php" class="text-secondary">Create Account</a>
+                    </div>
                 </div>
             </form>
-        </section>
-    </main>
+        </div> 
+    </div>
+    
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="./bootstrap/jquery-3.2.1.slim.min.js"></script>
+    <script src="./bootstrap/popper.min.js"></script>
+    <script src="./bootstrap/bootstrap.bundle .min.js"></script>
 </body>
 </html>

@@ -1,0 +1,93 @@
+.bg-white {
+	background-color: white;
+}
+
+body {
+	background-color: #e8439320;
+}
+
+.content {
+	transform: translateY(50%);
+}
+
+.margin-top {
+	margin-top: 5vh;
+}
+
+.pointer {
+	cursor: pointer;
+}
+.hover-item {
+	transition: all 0.2s ease-in-out;
+	border: 2px solid gray;
+}
+.hover-item:hover {
+	box-shadow: 0px 0px 14px #00000040;
+	transition: all 0.2s ease-in-out;
+	cursor: pointer;
+}
+
+.min-width {
+	width: 90vw;
+}
+
+.full-width-sm {
+	width: 100%;
+}
+
+@media screen and (min-width: 500px) {
+	.min-width {
+		width: 500px;
+	}
+
+	.margin-x {
+		padding-inline: 2rem;
+	}
+	/* .full-width-sm {
+		width: 50%;
+	} */
+}
+
+/* find the input with the id of gift container ... */
+/* ... then if the input is checked/active/true/selected ... */
+/* .... appply the css style to the sibling element of gift container with a class of hover-item */
+#gift-container-1:checked ~ .hover-item,
+#gift-container-2:checked ~ .hover-item,
+#gift-container-3:checked ~ .hover-item,
+#gift-container-4:checked ~ .hover-item,
+#flower-1:checked ~ .hover-item,
+#flower-2:checked ~ .hover-item,
+#flower-3:checked ~ .hover-item,
+#flower-4:checked ~ .hover-item,
+#ribbon-1:checked ~ .hover-item,
+#ribbon-2:checked ~ .hover-item,
+#add-ons-1:checked ~ .hover-item,
+#add-ons-2:checked ~ .hover-item,
+#add-ons-3:checked ~ .hover-item,
+#add-ons-4:checked ~ .hover-item {
+	/* background-color: #123; */
+	background-color: palevioletred;
+	color: white;
+	border: 2px solid transparent;
+}
+
+/* #flower-1:checked ~ .hover-item,
+#flower-2:checked ~ .hover-item,
+#flower-3:checked ~ .hover-item,
+#flower-4:checked ~ .hover-item { */
+/* background-color: #123; */
+/* background-color: rgb(112, 209, 216);
+	color: black;
+	border: 2px solid transparent; */
+/* } */
+
+.title {
+	font-size: 28px;
+}
+.sub-title {
+	font-size: 16px;
+}
+
+.gap-y {
+	row-gap: 20px;
+}
