@@ -7,10 +7,9 @@
         header("location: ../login.php?error=user_not_authenticated");   
     }
 
-    if($_SESSION['user_type'] != 'A'){
-        header("location: ../user/login.php");   
+    if($_SESSION['user_type'] == 'U'){
+        header("location: ../user/index.php");   
     } 
-
 
     /* users sql */
     $users_sql = "SELECT * FROM users WHERE user_type = 'U';";
@@ -61,8 +60,8 @@
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
                 <button class="form-control btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-             
-            <a href="../logout.php" class="nav-item "> Log out </a>  
+              
+            <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item mx-4"> Log out </a> 
             
         </div> 
     </nav>

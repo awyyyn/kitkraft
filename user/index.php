@@ -7,9 +7,8 @@
         header("location: ../login.php");   
     } 
 
-    if($_SESSION['user_type'] == 'A'){
-        session_destroy();
-        header("location: ../login.php?error=invalid_user_type");   
+    if($_SESSION['user_type'] == 'A'){ 
+        header("location: ../admin/index.php");   
     }
 
     $sql = "SELECT * FROM users WHERE user_id=".$_SESSION['user_id']. " LIMIT 1;";
@@ -53,7 +52,7 @@
     
 </head>
 <body> 
-    <nav class="navbar  navbar-expand-lg   navbar-light bg-light">
+    <nav class=" navbar   navbar-expand-lg   navbar-light bg-light">
         
         <a class="navbar-brand" href="./index.php">KitKraft</a>
 
@@ -72,7 +71,7 @@
                 <button class="form-control btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             
-            <a href="../logout.php" class="nav-item mx-4"> Log out </a> 
+            <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item mx-4"> Log out </a> 
             
         </div>
 
@@ -92,10 +91,10 @@
                         Past Orders 
                     </button>
                 </a>
-            </div> 
-            
+            </div>  
         </div> 
         <form method="post">
+
             <div class="row mb-4 margin-x" >   
                 <div class="col-sm-12 d-flex justify-content-center">  
                     <input required class="form-control form-control-lg full-width-sm" type="number" min="1" placeholder="Quantity">
@@ -105,56 +104,41 @@
             <div class="row margin-x gap-y"> 
                 <!-- STEP 1 -->
                 <div class="col-sm-12 col-md-6">
-                    <h3 class="badge badge-danger p-2">Step 1: Pick your gift container</h3>
-                    <div class="row mt-2">  
-                        <div class="col-sm-12 col-md-6 " >  
-                            <input hidden type="radio" id="gift-container-1" value='Gift Box,100' name="gift-container" />
-                            <label for="gift-container-1"  class="px-3 pt-3 w-100 rounded-lg hover-item">
-                                <h1 class="title">Transparent Box </h1>  
-                                <div class="d-flex w-100 justify-content-between"> 
-                                    <h4 class="sub-title">Detail: Clear Elegance  </h4>
-                                    <h4 class="sub-title">Price: Php 100</h4>
+                    <h3 class="badge bg-color-1 text-white p-2">Step 1: Pick your gift container</h3>
+                    <div class="row mt-2">   
+                        <?php
+                            /* query materials that step id is equal to 1 */
+                            $step_1 = "SELECT * FROM `materials` WHERE `step_id` = '1';";
+                            /* execute step_1 query */
+                            $result_step_1 = mysqli_query($conn, $step_1);  
+                            /* get query row resutl */
+                            if(mysqli_num_rows($result_step_1) > 0 ){
+                                while($step1 = mysqli_fetch_assoc($result_step_1)){
+                        ?>  
+                                    <div class="col-sm-12 col-md-6 " >  
+                                        <input hidden class="btn-check-step-1" type="radio" id="<?php echo $step1['material_id']; ?>" value='<?php echo $step1['material_id']; ?>' name="gift-container" />
+                                        <label for="<?php echo $step1['material_id']; ?>"  class="px-3 pt-3 w-100 rounded-lg hover-item btn  d-flex-column text-left">
+                                            <h1 class="title"><?php echo $step1['material_name']; ?> </h1>  
+                                            <div class=""> 
+                                                <h4 class="sub-title">Price: <?php echo $step1['material_price']; ?></h4>
+                                                <h4 class="sub-title">Detail: <?php echo $step1['material_description']; ?></h4>
+                                            </div>
+                                        </label>
+                                    </div>
+                        <?php
+                                }
+                            }else{
+                        ?>
+                                <div class="col " >   
+                                    <h1 style="cursor:not-allowed"  class="text-center py-5 h-100 w-100 rounded-lg hover-item">
+                                        There is no available gift container
+                                    </h1>
                                 </div>
-                            </label>
-                        </div>
-                        <div class="col-sm-12 col-md-6 " > 
-                            <input hidden type="radio" name="gift-price" value="120"/>
-                            <input hidden type="radio" id="gift-container-2" name="gift-container" />
-                            <label for="gift-container-2"  class="px-3 pt-3 w-100 rounded-lg hover-item">
-                                <h1 class="title">Transparent Box </h1>  
-                                <div class="d-flex w-100 justify-content-between"> 
-                                    <h4 class="sub-title">Detail: Clear Elegance  </h4>
-                                    <h4 class="sub-title">Price: Php 120</h4>
-                                </div>
-                            </label>
-                        </div>
-                        
+                        <?php
+                            }
+                        ?> 
                     </div>
-                    <div class="row  ">
-                        <div class="col-sm-12 col-md-6 " > 
-                            <input hidden type="radio" name="gift-price" value="150" />
-                            <input hidden type="radio" id="gift-container-3" name="gift-container" />
-                            <label for="gift-container-3"  class="px-3 pt-3 w-100 rounded-lg hover-item">
-                                <h1 class="title">Bouquet </h1>  
-                                <div class="d-flex w-100 justify-content-between flex-wrap"> 
-                                    <h4 class="sub-title">Detail: Floral Beauty </h4>
-                                    <h4 class="sub-title">Price: Php 150</h4>
-                                </div>
-                            </label>
-                        </div> 
-                        <div class="col-sm-12 col-md-6 " > 
-                            <input hidden type="radio" name="gift-price" value="200"  />
-                            <input hidden type="radio" id="gift-container-4" name="gift-container" />
-                            <label for="gift-container-4"  class="px-3 pt-3 w-100 rounded-lg hover-item">
-                                <h1 class="title">Woven Basket</h1>
-                                <div class="d-flex w-100 justify-content-between flex-wrap"> 
-                                    <h4 class="sub-title">Detail: Rustic Charm</h4>
-                                    <h4 class="sub-title">Price: Php 200</h4>
-                                </div>
-                            </label>
-                        </div>
-                        
-                    </div>
+                     
                 </div>
 
 

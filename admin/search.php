@@ -8,10 +8,9 @@
         header("location: ../login.php?error=user_not_authenticated");   
     }
 
-    if($_SESSION['user_type'] != 'A'){
-        header("location: ../user/login.php");   
+    if($_SESSION['user_type'] == 'U'){
+        header("location: ../user/index.php");   
     } 
-
 
   
     if(isset($_POST['login_button'])){

@@ -12,48 +12,83 @@
         header("location: ../login.php?error=invalid_user_type");   
     }
 
-  
-    if(isset($_POST['login_button'])){
-        
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+   /* image directory */
+    $dir = "../uploads/"; 
+    /* check if directory exists */
+    if(!file_exists($dir)){
+        /* create a new directory */
+        mkdir('../uploads/');
+        $dir = "../uploads/";
+    }
+ 
 
-        /* QUERY */
-        $checkUsername = "SELECT * FROM users WHERE username='$username' LIMIT 1;";
-        
-        /* EXECUTE */
-        $checkUsernameResult = mysqli_query($conn, $checkUsername);
-        
-        /* FETCH */
-        $isExist = mysqli_fetch_assoc($checkUsernameResult); 
-        
+    if(isset($_POST['add_material'])){
+           
+        /* get a temporary name for material image */
+        $temp_name = $_FILES['material_img']['tmp_name'];
+        /* get the base name of material image */
+        $basename = basename( $_FILES["material_img"]["name"]); 
+        $file_name = $_FILES["material_img"]["name"];
+        $target_file = $dir . $file_name;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
-        if($isExist){ 
-            $sql = "SELECT * FROM users WHERE username='$username' AND password='$password' LIMIT 1;";
-            $query = mysqli_query($conn, $sql);
-            $row = mysqli_fetch_assoc($query);
+        $uploadOk = 1;
 
-            if($row){
-                
-                $_SESSION['user_id'] = $row['user_id'];
-                $_SESSION['user_type'] = $row['user_type'];
+         // Check if image file is a actual image or fake image
+        $check = getimagesize($_FILES["material_img"]["tmp_name"]);
+ 
 
-                /* strtoupper converts string to uppercase */
-                /* if user_type equals to A then redirect to admin panel */
-                /* else redirect to to student */
-                if(strtoupper($row['user_type']) == 'A')
-                    header("Location: ./admin/index.php");
-                else{ 
-                    header("Location: ./student/index.php");
-                }
-            }else{
-                 
-                header("Location: ./login.php?error=invalid_credentials");
-            }
-
-        }else{  
-            header("Location: ./login.php?error=username_not_found");
+        // Check file size in Kilobytes
+        if ($_FILES["material_img"]["size"] > 500000) {
+            // echo "Sorry, your file is too large.";
+            header('location: ./add-material.php?error=Sorry, your file is too large.');
+            $uploadOk = 0;
         }
+
+        if($check !== false) { 
+            $uploadOk = 1;
+        }else {
+            echo "File is not an image.";
+            header('location: ./add-material.php?error=File is not an image.');
+            echo $check;
+            $uploadOk = 0;
+        }
+
+        /* CHECK IMAGE FILE TYPE */
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" ) { 
+            header('location: ./add-material.php?error=Sorry, only JPG, JPEG, AND PNG files are allowed.');  
+            echo $check;
+            $uploadOk = 0;
+        } 
+
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) { 
+            // redirect to add-material with error message "Sorry, your file was not uploaded.";
+            header('location: ./add-material.php?error=Sorry, your file was not uploaded.');
+   
+
+        // if everything is ok, try to upload file
+        } else {
+
+            $file_name_to_save_in_db = $dir . uniqid() . ".".  $imageFileType;
+            if (move_uploaded_file($_FILES["material_img"]["tmp_name"], $file_name_to_save_in_db)) { 
+                // echo "The file ". $file_name . " has been uploaded."; 
+
+                $sql_insert = "INSERT INTO materials (material_name, material_price, stock, material_img, material_description, step_id) VALUES ('".$_POST['material_name']."', '".$_POST['material_price']."', '".$_POST['stock']."', '".$file_name_to_save_in_db."', '".$_POST['material_description']."', '".$_POST['step_id']."');";
+
+                if(mysqli_query($conn, $sql_insert)){ 
+                    header('location: ./index.php?success=Material added successfully.');
+                }else{
+                    header('location: ./add-material.php?error=Error adding material.');
+                }
+
+                
+
+            } else { 
+                header('location: ./add-material.php?error=Sorry, there was an error uploading your file.');
+            }
+        }
+
     }
 
 ?>
@@ -95,7 +130,7 @@
             
             
             
-            <a href="../logout.php" class="nav-item mx-4"> Log out </a> 
+            <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item mx-4"> Log out </a> 
             
         </div> 
     </nav>
@@ -109,7 +144,7 @@
         </div>
         
         <!-- <h1 class="brand">KITKRAFT</h1> --> 
-        <form method="post"> 
+        <form method="post" enctype="multipart/form-data"> 
             <div class="container">
                 <div class="row mt-4">
                     <div class="col-sm-12 col-md-6"> 
@@ -139,44 +174,80 @@
                     </div>
                 </div>
 
-                 <div class="row mt-4">
+                <div class="row mt-4">
                     <div class="col-sm-12 col-md-6"> 
                         <div class="form-group ">
-                            <label for="material_name">Material Name</label>
+                            <label for="stock">Stock</label>
                             <input 
-                                id="material_name"
+                                id="stock"
                                 required  
                                 type="text" 
-                                name="material_name" 
-                                placeholder="Enter your material name" 
+                                name="stock" 
+                                placeholder="Enter stock" 
                                 class="form-control form-control-lg" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6"> 
                         <div class="form-group ">
                             <label for="step_id">Step ID</label>
-                            <select class="form-control form-control-lg">
-                                <option selected disabled>Select step ID</option>
-                                <option value="1"></option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <select class="form-control form-control-lg" name="step_id" id="step_id" required>
+                                <option value="" selected disabled>Select step ID</option>
+                                <option value="1">Step 1</option>
+                                <option value="2">Step 2</option>
+                                <option value="3">Step 3</option>
+                                <option value="4">Step 4</option>
                             </select>
                         </div>
+                    </div>
+                </div>
+
+                
+                <div class="row mt-4">
+                    <div class="col"> 
+                        <label for="material_img">Material Image</label>
+                        <div class="input-group">
+                            <input 
+                                type="file" 
+                                required class="form-control-file form-control" 
+                                accept="image/jpg,image/jpeg,image/png" 
+                                name="material_img" 
+                                id="material_img "
+                            />
+                           
+                            <div class="input-group-append"> 
+                                <label class="input-group-text" for="material_img">Choose file</label>
+                            </div>
+                        </div>  
+                    </div> 
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col"> 
+                        <div class="form-group ">
+                            <label for="material_description">Description</label>
+                            <textarea 
+                                id="material_description"
+                                required  
+                                type="text" 
+                                name="material_description" 
+                                placeholder="Enter your material description" 
+                                class="form-control form-control-lg"></textarea>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input 
+                            type="submit" 
+                            class="py-2 w-100  mt-4 btn btn-danger" 
+                            value="Add Material" 
+                            name="add_material" 
+                        />
                     </div>
                 </div>
             </div>
                 
  
-                <input 
-                    type="submit" 
-                    class="py-2  mt-4 btn btn-danger" 
-                    value="Log in" 
-                    name="login_button" 
-                />
-                    
-                <div class="w-100 d-block mt-3 text-center ">                   
-                    <a href="./create-account.php" class="text-secondary">Create Account</a>
-                </div> 
         </form> 
     </div>
     </div>

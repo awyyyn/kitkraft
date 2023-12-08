@@ -8,6 +8,7 @@ body {
 
 .content {
 	transform: translateY(50%);
+	/* min-height:  */
 }
 
 .margin-top {
@@ -48,38 +49,20 @@ body {
 	} */
 }
 
-/* find the input with the id of gift container ... */
-/* ... then if the input is checked/active/true/selected ... */
-/* .... appply the css style to the sibling element of gift container with a class of hover-item */
-#gift-container-1:checked ~ .hover-item,
-#gift-container-2:checked ~ .hover-item,
-#gift-container-3:checked ~ .hover-item,
-#gift-container-4:checked ~ .hover-item,
-#flower-1:checked ~ .hover-item,
-#flower-2:checked ~ .hover-item,
-#flower-3:checked ~ .hover-item,
-#flower-4:checked ~ .hover-item,
-#ribbon-1:checked ~ .hover-item,
-#ribbon-2:checked ~ .hover-item,
-#add-ons-1:checked ~ .hover-item,
-#add-ons-2:checked ~ .hover-item,
-#add-ons-3:checked ~ .hover-item,
-#add-ons-4:checked ~ .hover-item {
-	/* background-color: #123; */
-	background-color: palevioletred;
+.btn-check-step-1:checked + label {
+	background-color: #e25d4e;
 	color: white;
-	border: 2px solid transparent;
+	border: 2px solid #e25d4e;
 }
 
-/* #flower-1:checked ~ .hover-item,
-#flower-2:checked ~ .hover-item,
-#flower-3:checked ~ .hover-item,
-#flower-4:checked ~ .hover-item { */
-/* background-color: #123; */
-/* background-color: rgb(112, 209, 216);
-	color: black;
-	border: 2px solid transparent; */
-/* } */
+.btn-check-step-1 ~ label {
+	border: 2px solid #e25d4e;
+}
+.btn-check-step-1 + label:hover {
+	background-color: #e25d4e;
+	border: 2px solid #e25d4e;
+	color: white;
+}
 
 .title {
 	font-size: 28px;
@@ -90,4 +73,35 @@ body {
 
 .gap-y {
 	row-gap: 20px;
+}
+
+.color-1 {
+	color: #e25d4e;
+}
+
+.bg-color-1 {
+	background-color: #e25d4e;
+}
+
+.color-2 {
+	color: #a93545;
+}
+
+.color-3 {
+	color: #d9528b;
+}
+
+.color-4 {
+	color: #ff92e8;
+}
+.bg-color-2 {
+	background-color: #a93545;
+}
+
+.bg-color-3 {
+	background-color: #d9528b;
+}
+
+.bg-color-4 {
+	background-color: #ff92e8;
 }

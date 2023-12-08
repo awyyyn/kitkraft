@@ -40,24 +40,32 @@
 
             if($row){
                 
-                $_SESSION['user_id'] = $row['user_id'];
-                $_SESSION['user_type'] = $row['user_type'];
 
                 /* strtoupper converts string to uppercase */
                 /* if user_type equals to A then redirect to admin panel */
                 /* else redirect to to student */
-                if(strtoupper($row['user_type']) == 'A')
+                if(strtoupper($row['user_type']) == 'A'){
+                    $_SESSION['user_id'] = $row['user_id'];
+                    $_SESSION['user_type'] = $row['user_type'];
                     header("Location: ./admin/index.php");
-                else{ 
-                    header("Location: ./user/index.php");
+                }else{ 
+                    $updateStatus = "UPDATE users SET status = 'A' WHERE user_id = ".$row['user_id'].";";
+                    if(mysqli_query($conn, $updateStatus)){ 
+                        $_SESSION['user_id'] = $row['user_id'];
+                        $_SESSION['user_type'] = $row['user_type'];
+                        header("Location: ./user/index.php");
+                    }else{
+                        session_destroy();  
+                        header("Location: ./login.php?error=Internal server error");
+                    }
                 }
             }else{
                  
-                header("Location: ./login.php?error=invalid_credentials");
+                header("Location: ./login.php?error=Invalid Credentials");
             }
 
         }else{  
-            header("Location: ./login.php?error=username_not_found");
+            header("Location: ./login.php?error=Username not found");
         }
     }
 
@@ -79,11 +87,17 @@
 </head>
 <body > 
         <!-- <image src="./assets/logo.png" class="h-40 w-60 mix-blend-darken absolute top-5 md:left-10 -translate-x-[50%] md:translate-x-0 left-[50%] " /> -->
-    <div class="position-relative container-fluid justify-content-center d-flex margin-top w-full">
+    <div class="position-relative container-fluid justify-content-center d-flex margin-top w-full ">
+       
         <div class="border p-5 bg-white  margin-top min-width">
             <!-- <h1 class="brand">KITKRAFT</h1> --> 
             <form method="post">
-                <div class="d-flex flex-column py-2"> 
+                <div class="d-flex flex-column py-2 position-relative"> 
+                    <?php
+                        if(isset($_GET['error'])){  
+                            echo "<div class='px-3 py-1 rounded small position-absolute text-white bg-danger ' style='top:-20px;right:-20px'>". $_GET['error']."</div>"; 
+                        }
+                    ?>
                     <h1 class=" text-center ">Log in </h1> 
                     <div class="form-group  mt-4">
                         <label for="username">Username</label>
