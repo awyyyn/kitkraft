@@ -49,21 +49,6 @@ body {
 	} */
 }
 
-.btn-check-step-1:checked + label {
-	background-color: #e25d4e;
-	color: white;
-	border: 2px solid #e25d4e;
-}
-
-.btn-check-step-1 ~ label {
-	border: 2px solid #e25d4e;
-}
-.btn-check-step-1 + label:hover {
-	background-color: #e25d4e;
-	border: 2px solid #e25d4e;
-	color: white;
-}
-
 .title {
 	font-size: 28px;
 }
@@ -104,4 +89,74 @@ body {
 
 .bg-color-4 {
 	background-color: #ff92e8;
+}
+
+.btn-check-step-1:checked + label {
+	background-color: #e25d4e;
+	color: white;
+	border: 2px solid #e25d4e;
+}
+
+.btn-check-step-1 + label:hover {
+	background-color: #e25d4e;
+	border: 2px solid #e25d4e;
+	color: white;
+}
+
+.btn-check-step-1 + label {
+	border-color: #e25d4e;
+	/* border-color: #e25d4e; */
+}
+
+.btn-check-step-2:checked + label {
+	background-color: #681b13;
+	color: white;
+	border: 2px solid #681b13;
+}
+
+.btn-check-step-2 + label:hover {
+	background-color: #681b13;
+	border: 2px solid #681b13;
+	color: white;
+}
+
+.btn-check-step-2 + label {
+	border-color: #681b13;
+	/* border-color: #e25d4e; */
+}
+.btn-check-step-3:checked + label {
+	background-color: #053642;
+	color: white;
+	border: 2px solid #053642;
+}
+
+.btn-check-step-3 + label:hover {
+	background-color: #053642;
+	border: 2px solid #053642;
+	color: white;
+}
+
+.btn-check-step-3 + label {
+	border-color: #053642;
+	/* border-color: #e25d4e; */
+}
+.btn-check-step-4:checked + label {
+	background-color: #311368;
+	color: white;
+	border: 2px solid #311368;
+}
+
+.btn-check-step-4 + label:hover {
+	background-color: #311368;
+	border: 2px solid #311368;
+	color: white;
+}
+
+.btn-check-step-4 + label {
+	border-color: #311368;
+	/* border-color: #e25d4e; */
+}
+
+#error:checked + div {
+	display: none;
 }

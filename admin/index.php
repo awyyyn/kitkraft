@@ -128,9 +128,7 @@
                 /*  */
                 if(mysqli_num_rows($query_material) > 0){
                     echo "<div class='card-columns col'>";
-
-                        
-
+ 
                         while($material = mysqli_fetch_assoc($query_material)){ 
                                 echo "<div class='card'>";
                                     echo "<img class='card-img-top img-fluid' style='max-height:200px; height:200px;object-fit:contain;border-bottom:1px solid #c5c6c4' 
