@@ -99,6 +99,7 @@
                 </a>
             </div>   
         </div>
+        
         <?php
             if(mysqli_num_rows($orders) > 0){
         ?>

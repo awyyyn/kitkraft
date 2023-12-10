@@ -74,7 +74,7 @@
         <div class="row ">
             <?php 
 
-                $sql_material = "SELECT * FROM `materials` WHERE `material_name` LIKE '%$search%';";
+                $sql_material = "SELECT * FROM `materials` WHERE `material_name` LIKE '%$search%'; AND STATUS = 'A';";
                 $query_material = mysqli_query($conn, $sql_material);
                 /*  */
                 if(mysqli_num_rows($query_material) > 0){
