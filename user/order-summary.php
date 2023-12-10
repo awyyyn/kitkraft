@@ -79,9 +79,9 @@
                     <a class="nav-link"  href="./index.php">Customize your own gift </a>
                 </li>  
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="form-control btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <form class="form-inline my-lg-0 mr-3" action="./search.php" method="get">
+                <input class="form-control form-control-sm mr-sm-2 " type="text" name="search" placeholder="Search" aria-label="Search">
+                <button class="form-control btn btn-sm btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             
             <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item mx-4"> Log out </a> 
