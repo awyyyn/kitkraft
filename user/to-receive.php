@@ -11,7 +11,7 @@
         header("location: ../admin/index.php");   
     }
 
-    $sql = "SELECT * FROM orders WHERE user_id=".$_SESSION['user_id']. " AND order_status='P';";
+    $sql = "SELECT * FROM orders WHERE user_id=".$_SESSION['user_id'].  " AND order_status = 'O';";
     $orders = mysqli_query($conn, $sql); 
 
    
@@ -44,10 +44,10 @@
  
         <div class="navbar-collapse collapse " id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto mt-2 mt-md-0">
-                <li  class="nav-item active ">
+                <li  class="nav-item ">
                     <a class="nav-link"  href="./index.php">Customize your own gift </a>
                 </li>  
-                <li  class="nav-item ">
+                <li  class="nav-item active ">
                     <a class="nav-link"  href="./to-receive.php">To receive</a>
                 </li>  
             </ul>
@@ -65,40 +65,7 @@
 
     
     <div class="container-fluid padding-x pb-5 mt-5 pt-5"> 
-        <div class="row  py-4  pl-2">  
-            <div class="col mb-4"  > 
-                <?php 
-                    $get_pending_order_sql = "SELECT COUNT(*) FROM orders where user_id=".$_SESSION['user_id']." AND order_status='P' LIMIT 1;";
-                    $get_pending_order_exec = mysqli_query($conn, $get_pending_order_sql);
-                    $pending_result = mysqli_fetch_row($get_pending_order_exec);
-                    
-                    $get_past_order_sql = "SELECT COUNT(*) FROM orders where user_id=".$_SESSION['user_id']." AND order_status='D' LIMIT 1;";
-                    $get_past_order_exec = mysqli_query($conn, $get_past_order_sql);
-                    $past_result = mysqli_fetch_row($get_past_order_exec);
-                    
-                ?>
-                <a href="pending-orders.php" class="text-white ">
-                    <button class="btn btn-info position-relative">
-                        <?php 
-                            if($pending_result[0] > 0){
-                                echo "<span class='badge badge-danger  badge-pill position-absolute' style='top: -8px;right:-5px'>" . $pending_result[0] .  "</span>";
-                            }
-                        ?>
-                        Pending Orders  
-                    </button>
-                </a>
-                <a href="past-orders.php" class="text-white">
-                    <button class="btn btn-secondary ml-4 position-relative">
-                        <?php 
-                            if($past_result[0] > 0){
-                                echo "<span class='badge badge-danger  badge-pill position-absolute' style='top: -8px;right:-5px'>" . $pending_result[0] .  "</span>";
-                            }
-                        ?>
-                        Past Orders 
-                    </button>
-                </a>
-            </div>   
-        </div>
+        <h1 class="mb-2">To Receive</h1>
         <?php
             if(mysqli_num_rows($orders) > 0){
         ?>
@@ -122,9 +89,9 @@
                     <div class="card m-2 ">  
                         <div class="card-header">
                             <h3 class="card-text">Order #<?php echo $order_count; ?></h3>
-                            <div class="d-flex flex-wrap gap-sm-y justify-content-between align-items-center">
-                                <span class="badge badge-dark mb-2 text-white"><?php echo $order['date_ordered']; ?></span>
-                                <span class='badge badge-info  px-2 py-1'>Pending</span> 
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge badge-dark text-white"><?php echo $order['date_ordered']; ?></span>
+                                <span class='badge badge-info px-2 py-1'>On the way</span>
                             </div>
                         </div>
                         <div class="card-body">
@@ -150,10 +117,32 @@
                                 <p class="card-text">Total  Price</p>
                                 <p class="card-text"><?php echo $total_price * $order['order_qty']; ?></p>
                             </div>
-                            <a href="cancel-order.php?id=<?php echo $order['order_id']; ?>" class="btn btn-danger w-100">Cancel order</a>
+                            <button data-target="#modal-<?php echo $order['order_id']; ?>" data-toggle="modal" class="btn btn-info w-100">Order Received</button>
                         </div>
                     </div> 
+                     <!-- Modal -->
+                     <div class="modal fade" id="modal-<?php echo $order['order_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModal3Label">Confirmation</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h3>Confirm Order #<?php echo $order['order_id']; ?> received?</h3>
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button> -->
+                                    <a href="complete.php?id=<?php echo $order['order_id']; ?>"  class="btn btn-info">Confirm</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php 
+  
+                               
                     }
                 ?>
             </div>
@@ -162,9 +151,9 @@
             }else{
         ?>
         
-            <div class="row d-flex justify-content-center"> 
+            <div class="row d-flex justify-content-center mt-5"> 
                 <div class="col col-md-8 py-3 bg-info rounded-lg shadow-lg">
-                    <h1 class="text-center text-white">No orders yet</h1>
+                    <h1 class="text-center text-white">0 </h1>
                 </div>    
             </div>
 

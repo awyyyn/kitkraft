@@ -11,7 +11,7 @@
         header("location: ../admin/index.php");   
     }
 
-    $sql = "SELECT * FROM orders WHERE user_id=".$_SESSION['user_id'].  " AND order_status!='P';";
+    $sql = "SELECT * FROM orders WHERE user_id=".$_SESSION['user_id'].  " AND order_status='A';";
     $orders = mysqli_query($conn, $sql); 
 
    
@@ -46,6 +46,9 @@
             <ul class="navbar-nav mr-auto mt-2 mt-md-0">
                 <li  class="nav-item active ">
                     <a class="nav-link"  href="./index.php">Customize your own gift </a>
+                </li>  
+                <li  class="nav-item ">
+                    <a class="nav-link"  href="./to-receive.php">To receive</a>
                 </li>  
             </ul>
             <form class="form-inline my-lg-0 mr-3" action="./search.php" method="get">

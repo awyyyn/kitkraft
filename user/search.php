@@ -50,6 +50,9 @@
                 <li  class="nav-item active ">
                     <a class="nav-link"  href="./index.php">Customize your own gift </a>
                 </li>  
+                <li  class="nav-item ">
+                    <a class="nav-link"  href="./to-receive.php">To receive</a>
+                </li>  
             </ul>
             <form class="form-inline my-lg-0 mr-3" action="./search.php" method="get">
                 <input class="form-control form-control-sm mr-sm-2 " type="text" name="search" placeholder="Search" aria-label="Search">
