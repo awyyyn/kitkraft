@@ -65,7 +65,7 @@
 
     
     
-    <div class="container  mt-4 py-5"> 
+    <div class="container-fluid padding-x pb-5 mt-5 pt-5"> 
         
         <h1 class="mb-2">Results</h1>
         <div class="row ">

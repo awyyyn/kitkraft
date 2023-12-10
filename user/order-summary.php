@@ -84,13 +84,13 @@
                 <button class="form-control btn btn-sm btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             
-            <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item mx-4"> Log out </a> 
+            <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item btn btn-sm btn-outline-danger d-block shadow-sm"> Log out </a> 
             
         </div>
 
 
-    </nav> 
-    <div class="container-fluid pb-5 mt-5 pt-5"> 
+    </nav>
+    <div class="container-fluid padding-x pb-5 mt-5 pt-5"> 
         <div class="row  py-4  ">  
             <div class="col mb-4" > 
                 <?php 
