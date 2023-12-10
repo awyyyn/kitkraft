@@ -10,118 +10,7 @@
     if($_SESSION['user_type'] == 'A'){ 
         header("location: ../admin/index.php");   
     }
-
  
-  
-    if(isset($_POST['order-now'])){ 
-        $id = $_SESSION['user_id']; 
-        // $step_2 = $_POST['step_2'];
-        $quantity = $_POST['quantity'];
-        // $step_3 = $_POST['step_3'];
-        // $step_4 = $_POST['step_4'];
-        if(!empty($_POST['step_1'])){
-            $step_1 = $_POST['step_1'];
-            $get_old_stock_sql = "SELECT stock FROM materials WHERE material_id=$step_1;";
-            $get_old_stock_execute_sql = mysqli_query($conn, $get_old_stock_sql);
-            $get_old_stock_fetch_sql = mysqli_fetch_assoc($get_old_stock_execute_sql);
-
-            // echo "<br /><br /><br /> eas" . (((int)$get_old_stock_fetch_sql['stock'])  ) > (int)$quantity ? "T": "F";
-            
-            if($get_old_stock_fetch_sql['stock'] >= $quantity){
-                $update_stock = $get_old_stock_fetch_sql['stock'] - $quantity;
-                // echo $update_stock;
-                // return "";UPDATE `materials` SET `stock` = '4' WHERE `materials`.`material_id` = 9; 
-                $update_stock_sql = "UPDATE `materials` SET `stock`='$update_stock' WHERE `material_id`='$step_1';";
-                $order_sql = "INSERT INTO `orders` (`user_id`, `item_id`, `order_qty`, `order_status`) VALUES ('$id', '".$step_1."', '$quantity', 'P');";
-                  
-                if(!mysqli_query($conn, $update_stock_sql) || !mysqli_query($conn, $order_sql)){ 
-                    header('location: ./index.php?error=Internal Error');
-                }   
-            }else{  
-                header('location: ./index.php?error=Insufficient stock in step 1 product');
-            } 
- 
-        }
-        
-        if(!empty($_POST['step_2'])){
-            $step_2 = $_POST['step_2'];
-            $get_old_stock_sql = "SELECT stock FROM materials WHERE material_id=$step_2;";
-            $get_old_stock_execute_sql = mysqli_query($conn, $get_old_stock_sql);
-            $get_old_stock_fetch_sql = mysqli_fetch_assoc($get_old_stock_execute_sql);
-
-            // echo "<br /><br /><br /> eas" . (((int)$get_old_stock_fetch_sql['stock'])  ) > (int)$quantity ? "T": "F";
-            
-            if($get_old_stock_fetch_sql['stock'] >= $quantity){
-                $update_stock = $get_old_stock_fetch_sql['stock'] - $quantity;
-                // echo $update_stock;
-                // return "";UPDATE `materials` SET `stock` = '4' WHERE `materials`.`material_id` = 9; 
-                $update_stock_sql = "UPDATE `materials` SET `stock`='$update_stock' WHERE `material_id`='$step_2';";
-                $order_sql = "INSERT INTO `orders` (`user_id`, `item_id`, `order_qty`, `order_status`) VALUES ('$id', '".$step_2."', '$quantity', 'P');";  
-                
-                if(!mysqli_query($conn, $update_stock_sql) || !mysqli_query($conn, $order_sql)){ 
-                    header('location: ./index.php?error=Internal Error');
-                }
-            }else{  
-                header('location: ./index.php?error=Insufficient stock in step 2 product');
-            } 
- 
-        }
-        
-        if(!empty($_POST['step_3'])){
-            $step_3 = $_POST['step_3'];
-            $get_old_stock_sql = "SELECT stock FROM materials WHERE material_id=$step_3;";
-            $get_old_stock_execute_sql = mysqli_query($conn, $get_old_stock_sql);
-            $get_old_stock_fetch_sql = mysqli_fetch_assoc($get_old_stock_execute_sql);
-
-            // echo "<br /><br /><br /> eas" . (((int)$get_old_stock_fetch_sql['stock'])  ) > (int)$quantity ? "T": "F";
-            
-            if($get_old_stock_fetch_sql['stock'] >= $quantity){
-                $update_stock = $get_old_stock_fetch_sql['stock'] - $quantity;
-                // echo $update_stock;
-                // return "";UPDATE `materials` SET `stock` = '4' WHERE `materials`.`material_id` = 9; 
-                $update_stock_sql = "UPDATE `materials` SET `stock`='$update_stock' WHERE `material_id`='$step_3';";
-                $order_sql = "INSERT INTO `orders` (`user_id`, `item_id`, `order_qty`, `order_status`) VALUES ('$id', '".$step_3."', '$quantity', 'P');"; 
-                
-                if(!mysqli_query($conn, $update_stock_sql) || !mysqli_query($conn, $order_sql)){ 
-                    header('location: ./index.php?error=Internal Error');
-                }
-            }else{  
-                header('location: ./index.php?error=Insufficient stock in step 3 product');
-            } 
- 
-        }
-        
-        if(!empty($_POST['step_4'])){
-            $step_4 = $_POST['step_4'];
-            $get_old_stock_sql = "SELECT stock FROM materials WHERE material_id=$step_4;";
-            $get_old_stock_execute_sql = mysqli_query($conn, $get_old_stock_sql);
-            $get_old_stock_fetch_sql = mysqli_fetch_assoc($get_old_stock_execute_sql);
-
-            // echo "<br /><br /><br /> eas" . (((int)$get_old_stock_fetch_sql['stock'])  ) > (int)$quantity ? "T": "F";
-            
-            if($get_old_stock_fetch_sql['stock'] >= $quantity){
-                $update_stock = $get_old_stock_fetch_sql['stock'] - $quantity;
-                // echo $update_stock;
-                // return "";UPDATE `materials` SET `stock` = '4' WHERE `materials`.`material_id` = 9; 
-                $update_stock_sql = "UPDATE `materials` SET `stock`='$update_stock' WHERE `material_id`='$step_4';";
-                $order_sql = "INSERT INTO `orders` (`user_id`, `item_id`, `order_qty`, `order_status`) VALUES ('$id', '".$step_4."', '$quantity', 'P');"; 
-                
-                if(!mysqli_query($conn, $update_stock_sql) || !mysqli_query($conn, $order_sql)){ 
-                    header('location: ./index.php?error=Internal Error');
-                }
-            }else{  
-                header('location: ./index.php?error=Insufficient stock in step 4 product');
-            } 
- 
-        }
-        
-        if(empty($_POST['step_1']) && empty($_POST['step_2']) && empty($_POST['step_3']) && empty($_POST['step_4'])){
-            header('location: ./index.php?error=Please select a product');
-        }else{
-            header('location: ./index.php?success=Order placed successfully');
-        }
-    }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -163,10 +52,9 @@
         </div>
 
 
-    </nav>
-
+    </nav> 
     <div class="container-fluid pb-5 mt-5 pt-5"> 
-        <div class="row  py-4 margin-x">  
+        <div class="row  py-4  ">  
             <div class="col mb-4" > 
                 <?php 
                     $get_pending_order_sql = "SELECT COUNT(*) FROM orders where user_id=".$_SESSION['user_id']." AND order_status='P' LIMIT 1;";
@@ -200,9 +88,7 @@
                 </a>
             </div>   
         </div> 
-        <form method="post">
-            
-
+        <form method="get" action="order-summary.php">  
             <?php 
                 // $get_min_stock = "SELECT MIN(stock) as min_stock FROM `materials` WHERE stock != '0';";
                 // $get_min_stock_exec = mysqli_query($conn, $get_min_stock);
@@ -210,13 +96,13 @@
                 // $min_stock = $min_stock ? $min_stock : 1; 
                 // max="<?php echo $min_stock;  "
             ?>
-            <div class="row mb-4 margin-x" >   
-                <div class="col-sm-12 d-flex justify-content-center">  
+            <div class="row mb-4    d-flex justify-content-center    " >   
+                <div class="col-12 col-md-4 d-flex justify-content-center">  
                     <input required min="1"  class="form-control form-control-lg full-width-sm" type="number" min="1" placeholder="Quantity" name="quantity">
                 </div> 
             </div>
 
-            <div class="row margin-x gap-y"> 
+            <div class="row   gap-y"> 
                 <!-- STEP 1 -->
                 <div class="col-12 col-lg-6">
                     <h3 class="badge bg-color-1 text-white p-2">Step 1: Pick your gift container</h3>
@@ -244,7 +130,7 @@
                             }else{
                         ?>
                                 <div class="col " >   
-                                    <h1 style="cursor:not-allowed"  class="text-center py-5 h-100 w-100 rounded-lg hover-item">
+                                    <h1 style="cursor:not-allowed"  class="text-center px-2 py-5 h-100 w-100 rounded-lg hover-item">
                                         There is no available gift container
                                     </h1>
                                 </div>
@@ -269,7 +155,7 @@
                                 while($step2 = mysqli_fetch_assoc($result_step_2)){
                         ?>  
                                     <div class="col-sm-12 col-md-6 " >  
-                                        <input hidden class="btn-check-step-2" type="radio" id="<?php echo $step2['material_id']; ?>" value='<?php echo $step2['material_id']; ?>' name="step_2" />
+                                        <input hidden class="btn-check-step-2 " type="radio" id="<?php echo $step2['material_id']; ?>" value='<?php echo $step2['material_id']; ?>' name="step_2" />
                                         <label for="<?php echo $step2['material_id']; ?>"  class="px-3 pt-3 w-100 rounded-lg hover-item btn  d-flex-column text-left">
                                             <h1 class="title text-truncate"><?php echo $step2['material_name']; ?> </h1>   
                                             <h4 class="sub-title">Price: <?php echo $step2['material_price']; ?></h4>
@@ -282,7 +168,7 @@
                             }else{
                         ?>
                                 <div class="col " >   
-                                    <h1 style="cursor:not-allowed"  class="text-center py-5 h-100 w-100 rounded-lg hover-item">
+                                    <h1 style="cursor:not-allowed"  class="text-center px-2 py-5 h-100 w-100 rounded-lg hover-item">
                                         There is no available flower
                                     </h1>
                                 </div>
@@ -293,7 +179,7 @@
                 </div>
             </div>
     
-            <div class="row margin-x gap-y mt-4"> 
+            <div class="row  gap-y mt-4"> 
 
                 <!-- STEP 3 -->
                 <div class="col-12 col-lg-6">
@@ -322,7 +208,7 @@
                             }else{
                         ?>
                                 <div class="col " >   
-                                    <h1 style="cursor:not-allowed"  class="text-center py-5 h-100 w-100 rounded-lg hover-item">
+                                    <h1 style="cursor:not-allowed"  class="text-center px-2 py-5 h-100 w-100 rounded-lg hover-item">
                                         There is no available flower
                                     </h1>
                                 </div>
@@ -360,7 +246,7 @@
                             }else{
                         ?>
                                 <div class="col " >   
-                                    <h1 style="cursor:not-allowed"  class="text-center py-5 h-100 w-100 rounded-lg hover-item">
+                                    <h1 style="cursor:not-allowed"  class="text-center px-2 py-5 h-100 w-100 rounded-lg hover-item">
                                         There is no available flower
                                     </h1>
                                 </div>

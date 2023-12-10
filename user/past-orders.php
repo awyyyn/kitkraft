@@ -63,7 +63,7 @@
 
     <div class="container-fluid pb-5 mt-5 pt-5"> 
 
-        <div class="row  py-4 margin-x">  
+        <div class="row  py-4 ">  
             <div class="col mb-4" > 
                 <?php 
                     $get_pending_order_sql = "SELECT COUNT(*) FROM orders where user_id=".$_SESSION['user_id']." AND order_status='P' LIMIT 1;";
