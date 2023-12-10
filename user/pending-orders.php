@@ -147,7 +147,7 @@
                                 <p class="card-text">Total  Price</p>
                                 <p class="card-text"><?php echo $total_price * $order['order_qty']; ?></p>
                             </div>
-                            <!-- <a href="#!" class="btn btn-primary w-100">Cancel</a> -->
+                            <a href="cancel-order.php?id=<?php echo $order['order_id']; ?>" class="btn btn-danger w-100">Cancel order</a>
                         </div>
                     </div> 
                 <?php 
