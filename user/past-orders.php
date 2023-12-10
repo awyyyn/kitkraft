@@ -11,9 +11,8 @@
         header("location: ../admin/index.php");   
     }
 
-    $sql = "SELECT * FROM users WHERE user_id=".$_SESSION['user_id']. " LIMIT 1;";
-    $result = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($result);
+    $sql = "SELECT * FROM orders WHERE user_id=".$_SESSION['user_id'].  " AND order_status!='P';";
+    $orders = mysqli_query($conn, $sql); 
 
    
 
@@ -61,19 +60,19 @@
 
     </nav>
 
-    <div class="container-fluid pb-5 mt-5 pt-5"> 
-
-        <div class="row  py-4 ">  
-            <div class="col mb-4" > 
+    
+    <div class="container-fluid px-2 pb-5 mt-5 pt-5"> 
+        <div class="row  py-4  pl-2">  
+            <div class="col mb-4"  > 
                 <?php 
                     $get_pending_order_sql = "SELECT COUNT(*) FROM orders where user_id=".$_SESSION['user_id']." AND order_status='P' LIMIT 1;";
                     $get_pending_order_exec = mysqli_query($conn, $get_pending_order_sql);
                     $pending_result = mysqli_fetch_row($get_pending_order_exec);
-                   
+                    
                     $get_past_order_sql = "SELECT COUNT(*) FROM orders where user_id=".$_SESSION['user_id']." AND order_status='D' LIMIT 1;";
                     $get_past_order_exec = mysqli_query($conn, $get_past_order_sql);
                     $past_result = mysqli_fetch_row($get_past_order_exec);
-                   
+                    
                 ?>
                 <a href="pending-orders.php" class="text-white ">
                     <button class="btn btn-info position-relative">
@@ -96,10 +95,89 @@
                     </button>
                 </a>
             </div>   
-        </div>  
+        </div>
+        <?php
+            if(mysqli_num_rows($orders) > 0){
+        ?>
 
+        <div class="row"> 
+            <div class="card-columns col ">
+                <?php
+                    $order_count = 0;
+                    while($order = mysqli_fetch_assoc($orders)){
+                        $order_count++;
+                        $orders_id = [];
+                        $total_price = 0;
+                        for($i = 1; $i <= 4; $i++){
+                            $s_id = "step$i";
+                            if($order[$s_id] != 0){
+                                array_push($orders_id, $order[$s_id]);
+                            }
+                        }
 
-    </div> 
+                ?>
+                    <div class="card m-2 ">  
+                        <div class="card-header">
+                            <h3 class="card-text">Order #<?php echo $order_count; ?></h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge badge-dark text-white"><?php echo $order['date_ordered']; ?></span>
+                                
+                                <?php 
+                                    if($order['order_status'] == 'O'){
+                                        echo "<span class='badge badge-info px-2 py-1'>On the way</span>";
+                                    }else if($order['order_status'] == 'D'){
+                                        echo "<span class='badge badge-success px-2 py-1'>Delivered</span>";
+
+                                    }else {
+                                        echo "<span class='badge badge-danger px-2 py-1'>Cancelled</span>";
+                                    }
+                                ?>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <?php 
+                                for($i = 0; $i < count($orders_id); $i++){  
+                                    $material_sql = "SELECT * FROM materials WHERE material_id='".$orders_id[$i] ."' LIMIT 1;";
+                                    $exe_sql = mysqli_query($conn, $material_sql); 
+                                    $fetch_material = mysqli_fetch_assoc($exe_sql);
+                                    $total_price +=  $fetch_material['material_price'];
+                            ?>
+                                <div class="d-flex w-full justify-content-between align-items-center">
+                                    <p class="card-text"><?php  echo $fetch_material['material_name']; ?> </p>
+                                    <p class="card-text"><?php  echo $fetch_material['material_price']; ?> </p>
+                                </div>
+                            <?php  
+                                }
+                            ?>
+                            <div class="d-flex w-full justify-content-between align-items-center">
+                                <p class="card-text">Quantity</p>
+                                <p class="card-text"><?php echo $order['order_qty']; ?></p>
+                            </div>
+                            <div class="d-flex w-full justify-content-between align-items-center">
+                                <p class="card-text">Total  Price</p>
+                                <p class="card-text"><?php echo $total_price * $order['order_qty']; ?></p>
+                            </div>
+                            <!-- <a href="#!" class="btn btn-primary w-100">Cancel</a> -->
+                        </div>
+                    </div> 
+                <?php 
+                    }
+                ?>
+            </div>
+        </div>
+        <?php 
+            }else{
+        ?>
+        
+            <div class="row d-flex justify-content-center"> 
+                <div class="col col-md-8 py-3 bg-info rounded-lg shadow-lg">
+                    <h1 class="text-center text-white">No past orders yet</h1>
+                </div>    
+            </div>
+
+        <?php } ?>
+    </div>
+
         
     <!-- BOOTSTRAP SCRIPTS -->
     <script src="../bootstrap/jquery-3.2.1.slim.min.js"></script>

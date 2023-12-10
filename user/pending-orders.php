@@ -11,7 +11,7 @@
         header("location: ../admin/index.php");   
     }
 
-    $sql = "SELECT * FROM orders WHERE user_id=".$_SESSION['user_id']. ";";
+    $sql = "SELECT * FROM orders WHERE user_id=".$_SESSION['user_id']. " AND order_status='P';";
     $orders = mysqli_query($conn, $sql); 
 
    
@@ -96,8 +96,11 @@
                 </a>
             </div>   
         </div>
-        
-        <div class="row">
+        <?php
+            if(mysqli_num_rows($orders) > 0){
+        ?>
+
+        <div class="row"> 
             <div class="card-columns col ">
                 <?php
                     $order_count = 0;
@@ -118,17 +121,7 @@
                             <h3 class="card-text">Order #<?php echo $order_count; ?></h3>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="badge badge-dark text-white"><?php echo $order['date_ordered']; ?></span>
-
-                                <?php 
-                                    if($order['order_status'] == 'P'){
-                                        echo "<span class='badge badge-info px-2 py-1'>On the way</span>";
-                                    }else if($order['order_status'] == 'D'){
-                                        echo "<span class='badge badge-success px-2 py-1'>Delivered</span>";
-
-                                    }else {
-                                        echo "<span class='badge badge-danger px-2 py-1'>Cancelled</span>";
-                                    }
-                                ?>
+                                <span class='badge badge-info px-2 py-1'>Pending</span> 
                             </div>
                         </div>
                         <div class="card-body">
@@ -162,6 +155,17 @@
                 ?>
             </div>
         </div>
+        <?php 
+            }else{
+        ?>
+        
+            <div class="row d-flex justify-content-center"> 
+                <div class="col col-md-8 py-3 bg-info rounded-lg shadow-lg">
+                    <h1 class="text-center text-white">No orders yet</h1>
+                </div>    
+            </div>
+
+        <?php } ?>
     </div>
 
         
