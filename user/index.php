@@ -53,7 +53,7 @@
 
 
     </nav> 
-    <div class="container-fluid pb-5 mt-5 pt-5"> 
+    <div class="container-fluid padding-x pb-5 mt-5 pt-5"> 
         <div class="row  py-4  ">  
             <div class="col mb-4" > 
                 <?php 

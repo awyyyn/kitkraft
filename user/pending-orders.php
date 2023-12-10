@@ -53,7 +53,7 @@
                 <button class="form-control btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             
-            <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item mx-4"> Log out </a> 
+            <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item btn btn-sm btn-outline-danger d-block shadow-sm"> Log out </a> 
             
         </div>
 
@@ -61,7 +61,7 @@
     </nav>
 
     
-    <div class="container-fluid px-2 pb-5 mt-5 pt-5"> 
+    <div class="container-fluid padding-x pb-5 mt-5 pt-5"> 
         <div class="row  py-4  pl-2">  
             <div class="col mb-4"  > 
                 <?php 
@@ -119,9 +119,9 @@
                     <div class="card m-2 ">  
                         <div class="card-header">
                             <h3 class="card-text">Order #<?php echo $order_count; ?></h3>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge badge-dark text-white"><?php echo $order['date_ordered']; ?></span>
-                                <span class='badge badge-info px-2 py-1'>Pending</span> 
+                            <div class="d-flex flex-wrap gap-sm-y justify-content-between align-items-center">
+                                <span class="badge badge-dark mb-2 text-white"><?php echo $order['date_ordered']; ?></span>
+                                <span class='badge badge-info  px-2 py-1'>Pending</span> 
                             </div>
                         </div>
                         <div class="card-body">
