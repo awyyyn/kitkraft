@@ -90,9 +90,9 @@
                 <a href="past-orders.php" class="text-white">
                     <button class="btn btn-secondary ml-4 position-relative">
                         <?php 
-                            if($past_result[0] > 0){
-                                echo "<span class='badge badge-danger  badge-pill position-absolute' style='top: -8px;right:-5px'>" . $pending_result[0] .  "</span>";
-                            }
+                            // if($past_result[0] > 0){
+                            //     echo "<span class='badge badge-danger  badge-pill position-absolute' style='top: -8px;right:-5px'>" . $pending_result[0] .  "</span>";
+                            // }
                         ?>
                         Past Orders 
                     </button>

@@ -23,7 +23,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KitKraft | Log in</title>
+    <title>KitKraft | Admin</title>
     
     <!-- BOOTSTRAP CSS -->
     <link rel="stylesheet" href="../bootstrap/bootstrap.min.css">  
@@ -34,7 +34,7 @@
     
 </head>
 <body> 
-    <nav class="navbar  navbar-expand-lg   navbar-light bg-light">
+    <nav class="navbar fixed-top navbar-expand-lg   navbar-light bg-light">
     
         <a class="navbar-brand" href="./index.php">KitKraft</a>
 
@@ -68,10 +68,10 @@
     </nav>
     
     
-    <div class="container mt-5">
+    <div class="container mt-5 pb-3 pt-5">
         <div class="row">
             <div class="col d-flex flex-wrap justify-content-between align-items-center ">
-                <h1>Orders</h1>
+                <h1  >Orders</h1>
                 <div class="d-flex flex-wrap justify-content-around gap-y mt-4">
                     <a href="orders.php" class="btn rounded-lg shadow-lg btn-outline-primary"> 
                         All
@@ -176,7 +176,7 @@
             }else{
         ?>
         
-            <div class="row d-flex justify-content-center"> 
+            <div class="row d-flex mt-5 justify-content-center"> 
                 <div class="col col-md-8 py-3 bg-info rounded-lg shadow-lg">
                     <h1 class="text-center text-white">No orders yet</h1>
                 </div>    
@@ -185,8 +185,7 @@
         <?php } ?>
 
 
-    </div>
-    </div>
+    </div> 
 
 
     <!-- BOOTSTRAP SCRIPTS -->

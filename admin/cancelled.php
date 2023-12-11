@@ -34,7 +34,7 @@
     
 </head>
 <body> 
-    <nav class="navbar  navbar-expand-lg   navbar-light bg-light">
+    <nav class="navbar fixed-top navbar-expand-lg   navbar-light bg-light">
     
         <a class="navbar-brand" href="./index.php">KitKraft</a>
 
@@ -57,9 +57,10 @@
             </ul>
             
             
-            <form class="form-inline my-2 my-lg-0 mr-4">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="form-control btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            
+            <form class="form-inline my-lg-0 mr-3" action="./search.php" method="get">
+                <input class="form-control form-control-sm mr-sm-2 " type="text" name="search" placeholder="Search" aria-label="Search">
+                <button class="form-control btn btn-sm btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
              
             <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item mx-4"> Log out </a> 
@@ -68,7 +69,7 @@
     </nav>
     
     
-    <div class="container mt-5">
+    <div class="container pt-5 pb-3 mt-5">
         <div class="row">
             <div class="col d-flex flex-wrap justify-content-between align-items-center ">
                 <h1>Orders</h1>
@@ -155,7 +156,7 @@
             }else{
         ?>
         
-            <div class="row d-flex justify-content-center"> 
+            <div class="row d-flex mt-5 justify-content-center"> 
                 <div class="col col-md-8 py-3 bg-info rounded-lg shadow-lg">
                     <h1 class="text-center text-white">No orders yet</h1>
                 </div>    
@@ -164,8 +165,7 @@
         <?php } ?>
 
 
-    </div>
-    </div>
+    </div>   
 
 
     <!-- BOOTSTRAP SCRIPTS -->

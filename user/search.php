@@ -74,10 +74,10 @@
         <div class="row ">
             <?php 
 
-                $sql_material = "SELECT * FROM `materials` WHERE `material_name` LIKE '%$search%'; AND STATUS = 'A';";
+                $sql_material = "SELECT * FROM `materials` WHERE `material_name` LIKE '%$search%' AND STATUS = 'A';";
                 $query_material = mysqli_query($conn, $sql_material);
                 /*  */
-                if(mysqli_num_rows($query_material) > 0){
+                if(mysqli_num_rows($query_material) > 0){ 
                     echo "<div class='card-columns col col-md-12'>";
  
                         while($material = mysqli_fetch_assoc($query_material)){ 

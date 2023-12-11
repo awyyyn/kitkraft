@@ -23,7 +23,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KitKraft | Log in</title>
+    <title>KitKraft | Admin</title>
     
     <!-- BOOTSTRAP CSS -->
     <link rel="stylesheet" href="../bootstrap/bootstrap.min.css">  
@@ -57,9 +57,10 @@
             </ul>
             
             
-            <form class="form-inline my-2 my-lg-0 mr-4">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="form-control btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          
+            <form class="form-inline my-lg-0 mr-3" action="./search.php" method="get">
+                <input class="form-control form-control-sm mr-sm-2 " type="text" name="search" placeholder="Search" aria-label="Search">
+                <button class="form-control btn btn-sm btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
              
             <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item mx-4"> Log out </a> 
