@@ -105,7 +105,7 @@
         ?>
 
         <div class="row"> 
-            <div class="card-columns col ">
+            <div class="card-columns  ">
                 <?php
                     $order_count = 0;
                     while($order = mysqli_fetch_assoc($orders)){
@@ -117,8 +117,7 @@
                             if($order[$s_id] != 0){
                                 array_push($orders_id, $order[$s_id]);
                             }
-                        }
-
+                        } 
                 ?>
                     <div class="card m-2 ">  
                         <div class="card-header">

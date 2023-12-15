@@ -185,6 +185,15 @@
                         } 
                     ?>
                     <input hidden value="<?php echo $_GET['quantity']; ?>" name="quantity" />
+                    <div class="mb-3">
+                        <label for="p-method">Payment method</label>
+                        <select id="p-method" class="custom-select" name="payment" required>
+                            <option selected disabled value="">Select payment method</option>
+                            <option value="C">Cash on Delivery</option>
+                            <option value="G">Gcash</option>
+                            <!-- <option value="3">Three</option> -->
+                        </select>
+                    </div>
                     <input href="#" type="submit" class="btn btn-outline-info w-100 mb-4" name="checkout" value="Checkout" />  
                 </form>
             </div>

@@ -118,7 +118,7 @@
                             type="password" 
                             name="password" 
                             placeholder="Enter your password" 
-                            class="form-control form-control-lg" >
+                            class="form-control form-control-lg" /z>
                     </div>
  
                     <input 

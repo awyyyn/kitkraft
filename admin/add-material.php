@@ -74,7 +74,7 @@
             if (move_uploaded_file($_FILES["material_img"]["tmp_name"], $file_name_to_save_in_db)) { 
                 // echo "The file ". $file_name . " has been uploaded."; 
 
-                $sql_insert = "INSERT INTO materials (material_name, material_price, stock, material_img, material_description, step_id) VALUES ('".$_POST['material_name']."', '".$_POST['material_price']."', '".$_POST['stock']."', '".$file_name_to_save_in_db."', '".$_POST['material_description']."', '".$_POST['step_id']."');";
+                $sql_insert = "INSERT INTO materials (material_name, material_price, stock, material_img, material_description, step_id, status) VALUES ('".$_POST['material_name']."', '".$_POST['material_price']."', '".$_POST['stock']."', '".$file_name_to_save_in_db."', '".$_POST['material_description']."', '".$_POST['step_id']."', 'A');";
 
                 if(mysqli_query($conn, $sql_insert)){ 
                     header('location: ./index.php?success=Material added successfully.');

@@ -34,7 +34,7 @@
             /* CREATE A SESSION NAMED USER_ID AND PASS THE ID OF NEW ACCOUNT */
             $_SESSION['user_id'] = $row['user_id'];
             /* REDIRECT OR STUDENT PANEL */
-            header("Location: ./student/index.php");
+            header("Location: ./user/index.php");
         }
         
     }
