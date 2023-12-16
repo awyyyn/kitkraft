@@ -1,19 +1,19 @@
 <?php 
+
+    include_once "../db_connection.php";
     session_start();
-    include "../db_connection.php"; 
-
-
+    
     if(empty($_SESSION['user_id'])){
-        header("location: ../login.php");   
-    } 
-
-    if($_SESSION['user_type'] == 'A'){ 
-        header("location: ../admin/index.php");   
+        header("location: ../login.php?error=user_not_authenticated");   
     }
 
-    $sql = "SELECT * FROM orders WHERE user_id=".$_SESSION['user_id'].  " AND order_status = 'O';";
-    $orders = mysqli_query($conn, $sql); 
+    if($_SESSION['user_type'] == 'A'){
+        header("location: ../admin/index.php");   
+    } 
 
+    /* users sql */
+    $orders_sql = "SELECT * FROM orders WHERE order_status = 'O' AND user_id ='". $_SESSION['user_id']."';";
+    $exe_orders_sql = mysqli_query($conn, $orders_sql);
    
 
 ?>
@@ -22,8 +22,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KitKraft | Student</title>
-    
+    <title>KitKraft | Admin</title>
     
     <!-- BOOTSTRAP CSS -->
     <link rel="stylesheet" href="../bootstrap/bootstrap.min.css">  
@@ -31,10 +30,11 @@
     <!-- CUSTOM CSS -->
     <link rel="stylesheet" type="text/css" href="../styles.css" />
     
+    
 </head>
-<body> 
-
-    <nav style="z-index:10" class=" navbar fixed-top  navbar-expand-lg   navbar-light bg-light">
+<body>  
+    
+    <nav style="z-index:10" class=" navbar fixed-top  shadow-lg navbar-expand-lg   navbar-light bg-light">
         
         <a class="navbar-brand" href="./index.php">KitKraft</a>
 
@@ -44,12 +44,15 @@
  
         <div class="navbar-collapse collapse " id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto mt-2 mt-md-0">
-                <li  class="nav-item ">
-                    <a class="nav-link"  href="./index.php">Customize your own gift </a>
+                <li  class="nav-item  ">
+                    <a class="nav-link"  href="./index.php">Home</a>
                 </li>  
-                <li  class="nav-item active ">
-                    <a class="nav-link"  href="./to-receive.php">To receive</a>
-                </li>  
+                <li  class="nav-item  ">
+                    <a class="nav-link "  href="./customize.php">Customize your own gift </a>
+                </li>    
+                <li  class="nav-item  active">
+                    <a class="nav-link"  href="./orders.php">My Orders</a>
+                </li>   
             </ul>
             <form class="form-inline my-lg-0 mr-3" action="./search.php" method="get">
                 <input class="form-control form-control-sm mr-sm-2 " type="text" name="search" placeholder="Search" aria-label="Search">
@@ -62,19 +65,41 @@
 
 
     </nav>
-
     
-    <div class="container-fluid padding-x pb-5 mt-5 pt-5"> 
-        <h1 class="mb-2">To Receive</h1>
+    <div class="container mt-5 pt-5 pb-3">
+        <div class="row">
+            <div class="col d-flex flex-wrap justify-content-between align-items-center ">
+                <h1 >My Orders</h1>
+                <div class="d-flex flex-wrap justify-content-around gap-y mt-4">
+                    <a href="orders.php" class="btn rounded-lg shadow-lg btn-outline-primary"> 
+                        All
+                    </a>
+                    <a href="pending.php" class="btn rounded-lg shadow-lg btn-outline-primary mx-4"> 
+                        Pending
+                    </a>
+                    <a href="otw.php" class="btn rounded-lg shadow-lg btn-primary"> 
+                        On the way
+                    </a>
+                    <a href="cancelled.php" class="btn rounded-lg shadow-lg btn-outline-primary mx-4"> 
+                        Cancelled
+                    </a>
+                    
+                    <a href="delivered.php" class="btn rounded-lg shadow-lg btn-outline-primary"> 
+                        Delivered
+                    </a>
+                </div>
+            </div>
+        </div>
+         
         <?php
-            if(mysqli_num_rows($orders) > 0){
+            if(mysqli_num_rows($exe_orders_sql) > 0){
         ?>
 
-        <div class="row"> 
+        <div class="row mt-4"> 
             <div class="card-columns col ">
                 <?php
                     $order_count = 0;
-                    while($order = mysqli_fetch_assoc($orders)){
+                    while($order = mysqli_fetch_assoc($exe_orders_sql)){
                         $order_count++;
                         $orders_id = [];
                         $total_price = 0;
@@ -88,10 +113,17 @@
                 ?>
                     <div class="card m-2 ">  
                         <div class="card-header">
-                            <h3 class="card-text">Order #<?php echo $order_count; ?></h3>
-                            <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="card-text">Order #<?php echo $order['order_id']; ?></h3>
+                            <div class="d-flex flex-wrap gap-sm-y justify-content-between align-items-center">
                                 <span class="badge badge-dark text-white"><?php echo $order['date_ordered']; ?></span>
-                                <span class='badge badge-info px-2 py-1'>On the way</span>
+                                <span class='badge badge-info  px-2 py-1'>On the way</span>
+                                <?php  
+                                    if($order['type_of_payment'] == "C"){ 
+                                        echo "<span class='badge bg-dark text-white px-2 py-1'>COD</span>";
+                                    }else{
+                                        echo "<span class='badge bg-primary  px-2 py-1 text-white'>Gcash</span>";
+                                    }
+                                ?>
                             </div>
                         </div>
                         <div class="card-body">
@@ -116,33 +148,10 @@
                             <div class="d-flex w-full justify-content-between align-items-center">
                                 <p class="card-text">Total  Price</p>
                                 <p class="card-text"><?php echo $total_price * $order['order_qty']; ?></p>
-                            </div>
-                            <button data-target="#modal-<?php echo $order['order_id']; ?>" data-toggle="modal" class="btn btn-info w-100">Order Received</button>
+                            </div>  
                         </div>
                     </div> 
-                     <!-- Modal -->
-                     <div class="modal fade" id="modal-<?php echo $order['order_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModal3Label">Confirmation</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <h3>Confirm Order #<?php echo $order['order_id']; ?> received?</h3>
-                                </div>
-                                <div class="modal-footer">
-                                    <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button> -->
-                                    <a href="complete.php?id=<?php echo $order['order_id']; ?>"  class="btn btn-info">Confirm</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 <?php 
-  
-                               
                     }
                 ?>
             </div>
@@ -151,19 +160,21 @@
             }else{
         ?>
         
-            <div class="row d-flex mx-3 justify-content-center mt-5"> 
+            <div class="row d-flex mt-5 justify-content-center"> 
                 <div class="col col-md-8 py-3 bg-info rounded-lg shadow-lg">
-                    <h1 class="text-center text-white">No orders available</h1>
+                    <h1 class="text-center text-white">No orders yet</h1>
                 </div>    
             </div>
 
         <?php } ?>
-    </div>
 
-        
+
+    </div> 
+
+
     <!-- BOOTSTRAP SCRIPTS -->
     <script src="../bootstrap/jquery-3.2.1.slim.min.js"></script>
     <script src="../bootstrap/popper.min.js"></script>
     <script src="../bootstrap/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html> 

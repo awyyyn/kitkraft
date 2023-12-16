@@ -24,11 +24,92 @@
     <link rel="stylesheet" href="../bootstrap/bootstrap.min.css">  
     
     <!-- CUSTOM CSS -->
-    <link rel="stylesheet" type="text/css" href="../styles.css" />
-    
+    <!-- <link rel="stylesheet" type="text/css" href="../styles.css" /> -->
+    <style>
+        .container-home {
+            height: 95vh;
+            width: 100vw;
+            background: none;
+            background-repeat: no-repeat;
+            background-image: url("../assets/mobile-bg.png");
+            background-size: 100vw 100vh ;  
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+        .welcome {
+            justify-content: center;
+            /* animation: forwards 1s sample ;  */
+        }
+        .container-home > div { 
+            height: 100%;
+            padding-inline: 1em;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+        }
+ 
+        .title {
+            font-size: 2rem;
+            background: linear-gradient(to right, #008080, #800080, #DAA520);
+            color: transparent;
+            background-clip: text;
+        }
+        .blockquote {
+            font-size: 1.2rem; 
+            font-weight: 500;
+        }
+        blockquote { 
+            line-height: 1.8; 
+            padding-right: 10%;
+            color: #e25d4e; 
+            letter-spacing: 1.5px;
+        } 
+        
+        .why-choose {
+                /* background-color: #fff; */ 
+                height: auto;
+        } 
+        @media only screen and (min-width: 768px){
+            .title {
+                font-size: 3rem; 
+            }
+            span {
+                
+                font-size: 2.5rem; 
+            }
+            .container-home > div {  
+                /* height: 100vi; */
+                padding-inline: 9em; 
+            }
+            .description { 
+                /* max-width: 55%; */
+                padding-right: 10%;
+            } 
+            blockquote { 
+                line-height: 2;
+                font-size: 1.5em;
+                letter-spacing: 2px;
+            } 
+            .container-home {
+                background-image: url("../assets/bg-2.jpg");
+                background-size: cover; 
+            }
+            .about {
+                text-align: center;
+            }
+            .card {
+                max-width: 330px; 
+            }
+            .card-columns {
+                column-gap: 5em;
+                padding-inline: 3em1111111;
+            }
+
+        }
+    </style>
 </head>
 <body> 
-    <nav style="z-index:10" class=" navbar fixed-top  navbar-expand-lg   navbar-light bg-light">
+    <nav style="z-index:10" class=" navbar fixed-top  shadow-lg navbar-expand-lg   navbar-light bg-light">
         
         <a class="navbar-brand" href="./index.php">KitKraft</a>
 
@@ -39,11 +120,14 @@
         <div class="navbar-collapse collapse " id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto mt-2 mt-md-0">
                 <li  class="nav-item active ">
-                    <a class="nav-link"  href="./index.php">Customize your own gift </a>
+                    <a class="nav-link"  href="./index.php">Home</a>
                 </li>  
-                <li  class="nav-item ">
-                    <a class="nav-link"  href="./to-receive.php">To receive</a>
-                </li>  
+                <li  class="nav-item  ">
+                    <a class="nav-link"  href="./customize.php">Customize your own gift </a>
+                </li>    
+                <li  class="nav-item  ">
+                    <a class="nav-link"  href="./orders.php">My Orders</a>
+                </li>   
             </ul>
             <form class="form-inline my-lg-0 mr-3" action="./search.php" method="get">
                 <input class="form-control form-control-sm mr-sm-2 " type="text" name="search" placeholder="Search" aria-label="Search">
@@ -56,220 +140,47 @@
 
 
     </nav>
-    <div class="container-fluid padding-x pb-5 mt-5 pt-5"> 
-        <div class="row  py-4  ">  
-            <div class="col mb-4" > 
-                <?php 
-                    $get_pending_order_sql = "SELECT COUNT(*) FROM orders where user_id=".$_SESSION['user_id']." AND order_status='P' LIMIT 1;";
-                    $get_pending_order_exec = mysqli_query($conn, $get_pending_order_sql);
-                    $pending_result = mysqli_fetch_row($get_pending_order_exec);
-                   
-                    $get_past_order_sql = "SELECT COUNT(*) FROM orders where user_id=".$_SESSION['user_id']." AND order_status='D' LIMIT 1;";
-                    $get_past_order_exec = mysqli_query($conn, $get_past_order_sql);
-                    $past_result = mysqli_fetch_row($get_past_order_exec);
-                   
-                ?>
-                <a href="pending-orders.php" class="text-white ">
-                    <button class="btn btn-info position-relative">
-                        <?php 
-                            if($pending_result[0] > 0){
-                                echo "<span class='badge badge-danger  badge-pill position-absolute' style='top: -8px;right:-5px'>" . $pending_result[0] .  "</span>";
-                            }
-                        ?>
-                        Pending Orders  
-                    </button>
-                </a>
-                <a href="past-orders.php" class="text-white">
-                    <button class="btn btn-secondary ml-4 position-relative">
-                        <?php 
-                            // if($past_result[0] > 0){
-                            //     echo "<span class='badge badge-danger  badge-pill position-absolute' style='top: -8px;right:-5px'>" . $pending_result[0] .  "</span>";
-                            // }
-                        ?>
-                        Past Orders 
-                    </button>
-                </a>
-            </div>   
-        </div> 
-        <form method="get" action="order-summary.php">  
+    <div class="container-home mt-5 pt-5 position-relative" > 
+        <div class="welcome">
+            <h1 class="title font-weight-bolder">Welcome to Kitkraft - <br  class="d-none  d-md-block" />Your Gateway to Personalized Delight! </h1>
+            <blockquote class="description color-1">At KitKraft, we invite you to embark on a delightful journey into the world of bespoke floral creations. As a premier e-commerce destination, we specialize in bringing you the finest flower crafts that not only captivate your senses but also allow you to unleash your creativity.</blockquote>
+        </div>
+        <div class="justify-content-center ">
+            <h1 class="title about font-weight-bolder">About Us </h1>
+            <blockquote class="text-lg-center about-us-description color-1">At KitKraft, we Kitkraft appears to be a customizable product system that specializes in selling personalized items like flowers and gifts. Customers likely have the option to tailor these products according to their preferences, adding a unique touch to each item. This customization could involve in creating personalized moments, transforming ordinary gifts into extraordinary expressions of love and thoughtfulness. Discover the joy of giving with Kitkraft, where every item becomes a canvas for your emotions. Our commitment is to provide you with not just products but experiences that resonate with your emotions. </blockquote>
+        </div>
+        <div class="why-choose">
+            <h1 class="title about font-weight-bolder">Why Choose Kitkraft?</h1>
             <?php 
-                // $get_min_stock = "SELECT MIN(stock) as min_stock FROM `materials` WHERE stock != '0';";
-                // $get_min_stock_exec = mysqli_query($conn, $get_min_stock);
-                // $min_stock = mysqli_fetch_assoc($get_min_stock_exec)['min_stock'];
-                // $min_stock = $min_stock ? $min_stock : 1; 
-                // max="<?php echo $min_stock;  "
+                $cards = [
+                    ['Customizable Elegance', 'Explore our curated selection, including clear box arrangements, floral bouquets, and wickerwork baskets, all waiting for your personal touch. '],
+                    ["Bespoke Blooms", "Select from a garden of options – Tulips, Roses, Sunflowers, Buttercups – and craft the perfect bouquet to convey your sentiments. "],
+                    ["Charming Decorations", "Elevate your gift with our premium add-ons like velvet ribbons and enchanting string lights, adding a touch of sophistication to your creation. "],
+                    ["Heartfelt Add-ons", "Make your gift truly special with personalized letters, adorable mini bears, handmade polaroids, and delectable chocolates – the perfect complements to your thoughtful gesture."]
+                ]
+
             ?>
-            <div class="row mb-4    d-flex justify-content-center    " >   
-                <div class="col-12 col-md-4 d-flex justify-content-center">  
-                    <input required min="1"  class="form-control form-control-lg full-width-sm" type="number" min="1" placeholder="Quantity" name="quantity">
-                </div> 
+            <div class="d-flex justify-content-center mt-3 flex-wrap gap-y card-columns">
+                <?php 
+                    for($i = 0; $i < count($cards); $i++){
+                ?>
+                    <div class="card my-5 mx-3 "> 
+                        <h3 class="card-header"><?php echo $cards[$i][0]; ?></h3>
+                        <div class="card-body">
+                            <p class="card-text"><?php echo $cards[$i][1]; ?></p>
+                        </div>
+                    </div>
+                <?php
+                    }
+                ?>
+                
             </div>
-
-            <div class="row   gap-y"> 
-                <!-- STEP 1 -->
-                <div class="col-12 col-lg-6">
-                    <h3 class="badge bg-color-1 text-white p-2">Step 1: Pick your gift container</h3>
-                    <div class="row mt-2">   
-                        <?php
-                            /* query materials that step id is equal to 1 */
-                            $step_1 = "SELECT * FROM `materials` WHERE `step_id` = '1' AND stock > 0 AND STATUS = 'A';";
-                            /* execute step_1 query */
-                            $result_step_1 = mysqli_query($conn, $step_1);  
-                            /* get query row resutl */
-                            if(mysqli_num_rows($result_step_1) > 0 ){
-                                while($step1 = mysqli_fetch_assoc($result_step_1)){
-                        ?>  
-                                    <div class="col-sm-12 col-md-6 " >  
-                                        <input hidden class="btn-check-step-1" type="radio" id="<?php echo $step1['material_id']; ?>" value='<?php echo $step1['material_id']; ?>' name="step_1" />
-                                        <label for="<?php echo $step1['material_id']; ?>"  class="px-3 pt-3 w-100 rounded-lg hover-item btn  d-flex-column text-left">
-                                            <h1 class="title text-truncate"><?php echo $step1['material_name']; ?> </h1>   
-                                            <h4 class="sub-title">Price: <?php echo $step1['material_price']; ?></h4>
-                                            <h4 class="sub-title ">Detail: <?php echo $step1['material_description']; ?></h4> 
-                                            <h4 class="sub-title ">Stock: <?php echo $step1['stock']; ?></h4> 
-                                        </label>
-                                    </div>
-                        <?php
-                                }
-                            }else{
-                        ?>
-                                <div class="col " >   
-                                    <h1 style="cursor:not-allowed"  class="text-center px-2 py-5 h-100 w-100 rounded-lg hover-item">
-                                        There is no available gift container
-                                    </h1>
-                                </div>
-                        <?php
-                            }
-                        ?> 
-                    </div> 
-                </div>
- 
-
-                <!-- STEP 2 -->
-                <div class="col-12 col-lg-6">
-                    <h3 class="badge bg-color-1 text-white p-2">Step 2: Pick your preferred  flower</h3>
-                    <div class="row mt-2">   
-                        <?php
-                            /* query materials that step id is equal to 1 */
-                            $step_2 = "SELECT * FROM `materials` WHERE `step_id` = '2' AND stock > 0 AND STATUS = 'A';";
-                            /* execute step_1 query */
-                            $result_step_2 = mysqli_query($conn, $step_2);  
-                            /* get query row resutl */
-                            if(mysqli_num_rows($result_step_2) > 0 ){
-                                while($step2 = mysqli_fetch_assoc($result_step_2)){
-                        ?>  
-                                    <div class="col-sm-12 col-md-6 " >  
-                                        <input hidden class="btn-check-step-2 " type="radio" id="<?php echo $step2['material_id']; ?>" value='<?php echo $step2['material_id']; ?>' name="step_2" />
-                                        <label for="<?php echo $step2['material_id']; ?>"  class="px-3 pt-3 w-100 rounded-lg hover-item btn  d-flex-column text-left">
-                                            <h1 class="title text-truncate"><?php echo $step2['material_name']; ?> </h1>   
-                                            <h4 class="sub-title">Price: <?php echo $step2['material_price']; ?></h4>
-                                            <h4 class="sub-title ">Detail: <?php echo $step2['material_description']; ?></h4> 
-                                            <h4 class="sub-title ">Stock: <?php echo $step2['stock']; ?></h4> 
-                                        </label>
-                                    </div>
-                        <?php
-                                }
-                            }else{
-                        ?>
-                                <div class="col " >   
-                                    <h1 style="cursor:not-allowed"  class="text-center px-2 py-5 h-100 w-100 rounded-lg hover-item">
-                                        There is no available flower
-                                    </h1>
-                                </div>
-                        <?php
-                            }
-                        ?> 
-                    </div> 
-                </div>
+            <div class="d-flex justify-content-center">
+                <span>🎁</span>
+                <h1 class="text-center title">Draft your unique expression with KitKraft</h1>
+                <span>🌹</span>
             </div>
-    
-            <div class="row  gap-y mt-4"> 
-
-                <!-- STEP 3 -->
-                <div class="col-12 col-lg-6">
-                    <h3 class="badge badge-danger p-2">Step 3: Pick your decoration</h3>
-                    <div class="row mt-2">   
-                        <?php
-                            /* query materials that step id is equal to 1 */
-                            $step_3 = "SELECT * FROM `materials` WHERE `step_id` = '3' AND stock != 0 AND STATUS = 'A';";
-                            /* execute step_1 query */
-                            $result_step_3 = mysqli_query($conn, $step_3);  
-                            /* get query row resutl */
-                            if(mysqli_num_rows($result_step_3) > 0 ){
-                                while($step3 = mysqli_fetch_assoc($result_step_3)){
-                        ?>  
-                                    <div class="col-sm-12 col-md-6 " >  
-                                        <input hidden class="btn-check-step-3" type="radio" id="<?php echo $step3['material_id']; ?>" value='<?php echo $step3['material_id']; ?>' name="step_3" />
-                                        <label for="<?php echo $step3['material_id']; ?>"  class="px-3 pt-3 w-100 rounded-lg hover-item btn  d-flex-column text-left">
-                                            <h1 class="title text-truncate"><?php echo $step3['material_name']; ?> </h1>   
-                                            <h4 class="sub-title">Price: <?php echo $step3['material_price']; ?></h4>
-                                            <h4 class="sub-title ">Detail: <?php echo $step3['material_description']; ?></h4> 
-                                            <h4 class="sub-title ">Stock: <?php echo $step3['stock']; ?></h4> 
-                                        </label>
-                                    </div>
-                        <?php
-                                }
-                            }else{
-                        ?>
-                                <div class="col " >   
-                                    <h1 style="cursor:not-allowed"  class="text-center px-2 py-5 h-100 w-100 rounded-lg hover-item">
-                                        There is no available flower
-                                    </h1>
-                                </div>
-                        <?php
-                            }
-                        ?> 
-                    </div> 
-                </div>
-
-
-                <!-- STEP 4 -->
-                <div class="col-12 col-lg-6">
-                    <h3 class="badge badge-danger p-2">Step 4: Add ons</h3>
-                    <div class="row mt-2">   
-                        <?php
-                            /* query materials that step id is equal to 1 */
-                            $step_4 = "SELECT * FROM `materials` WHERE `step_id` = '4' AND stock != 0  AND STATUS = 'A';";
-                            /* execute step_1 query */
-                            $result_step_4 = mysqli_query($conn, $step_4);  
-                            /* get query row resutl */
-                            if(mysqli_num_rows($result_step_4) > 0 ){
-                                while($step4 = mysqli_fetch_assoc($result_step_4)){
-                        ?>  
-                                    <div class="col-sm-12 col-md-6 " >  
-                                        <input hidden class="btn-check-step-4" type="radio" id="<?php echo $step4['material_id']; ?>" value='<?php echo $step4['material_id']; ?>' name="step_4" />
-                                        <label for="<?php echo $step4['material_id']; ?>"  class="px-3 pt-3 w-100 rounded-lg hover-item btn  d-flex-column text-left">
-                                            <h1 class="title text-truncate"><?php echo $step4['material_name']; ?> </h1>   
-                                            <h4 class="sub-title">Price: <?php echo $step4['material_price']; ?></h4>
-                                            <h4 class="sub-title ">Detail: <?php echo $step4['material_description']; ?></h4> 
-                                            <h4 class="sub-title ">Stock: <?php echo $step4['stock']; ?></h4> 
-                                        </label>
-                                    </div>
-                        <?php
-                                }
-                            }else{
-                        ?>
-                                <div class="col " >   
-                                    <h1 style="cursor:not-allowed"  class="text-center px-2 py-5 h-100 w-100 rounded-lg hover-item">
-                                        There is no available flower
-                                    </h1>
-                                </div>
-                        <?php
-                            }
-                        ?> 
-                    </div> 
-                </div>
-            </div>
-            
-            <!-- SUBMIT BUTTON -->
-            <div class="row mt-4  ">
-                <div class="d-flex col-12 justify-content-center">
-                    
-                    <button type="submit" name="order-now" class="btn btn-info " style="font-size:24px;padding: 5px 16px">
-                        Order now 
-                    </button>
-                </div>
-            </div> 
-        </form>
+        </div>
     </div> 
         
     <!-- BOOTSTRAP SCRIPTS -->

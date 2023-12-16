@@ -7,13 +7,13 @@
         header("location: ../login.php?error=user_not_authenticated");   
     }
 
-    if($_SESSION['user_type'] == 'U'){
-        header("location: ../user/index.php");   
+    if($_SESSION['user_type'] == 'A'){
+        header("location: ../admin/index.php");   
     } 
 
 
     /* users sql */
-    $orders_sql = "SELECT * FROM orders WHERE order_status = 'O';";
+    $orders_sql = "SELECT * FROM orders WHERE order_status = 'P' AND user_id ='". $_SESSION['user_id']."';";
     $exe_orders_sql = mysqli_query($conn, $orders_sql);
    
 
@@ -34,53 +34,51 @@
     
 </head>
 <body> 
-    <nav class="navbar  navbar-expand-lg   navbar-light bg-light">
     
+    <nav style="z-index:10" class=" navbar fixed-top  shadow-lg navbar-expand-lg   navbar-light bg-light">
+        
         <a class="navbar-brand" href="./index.php">KitKraft</a>
 
         <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-
-        <div class="navbar-collapse collapse " id="navbarTogglerDemo02" style="">
+ 
+        <div class="navbar-collapse collapse " id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto mt-2 mt-md-0">
-                <li class="nav-item ">
-                    <a class="nav-link " href="./index.php">Manage Materials </a>
+                <li  class="nav-item  ">
+                    <a class="nav-link"  href="./index.php">Home</a>
                 </li>  
-                <li class="nav-item ">
-                    <a class="nav-link" href="./users.php">Users </a>
-                </li>  
-                <li class="nav-item active"> 
-                    <a class="nav-link" href="./orders.php">Orders </a>
-                </li>  
+                <li  class="nav-item  ">
+                    <a class="nav-link "  href="./customize.php">Customize your own gift </a>
+                </li>    
+                <li  class="nav-item  active">
+                    <a class="nav-link "  href="./orders.php">My Orders</a>
+                </li>   
             </ul>
-            
-            
-            <
             <form class="form-inline my-lg-0 mr-3" action="./search.php" method="get">
                 <input class="form-control form-control-sm mr-sm-2 " type="text" name="search" placeholder="Search" aria-label="Search">
                 <button class="form-control btn btn-sm btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-             
-            <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item mx-4"> Log out </a> 
             
-        </div> 
+            <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item btn btn-sm btn-outline-danger d-block shadow-sm"> Log out </a> 
+            
+        </div>
+
+
     </nav>
     
-    
-    <div class="container mt-5   pb-3">
+    <div class="container mt-5 pb-3 pt-5">
         <div class="row">
             <div class="col d-flex flex-wrap justify-content-between align-items-center ">
-                <h1>Orders</h1>
+                <h1  >Orders</h1>
                 <div class="d-flex flex-wrap justify-content-around gap-y mt-4">
                     <a href="orders.php" class="btn rounded-lg shadow-lg btn-outline-primary"> 
                         All
                     </a>
-                    <a href="pending.php" class="btn rounded-lg shadow-lg btn-outline-primary mx-4"> 
+                    <a href="pending.php" class="btn rounded-lg shadow-lg btn-primary mx-4"> 
                         Pending
                     </a>
-                    <a href="otw.php" class="btn rounded-lg shadow-lg btn-primary"> 
+                    <a href="otw.php" class="btn rounded-lg shadow-lg btn-outline-primary"> 
                         On the way
                     </a>
                     <a href="cancelled.php" class="btn rounded-lg shadow-lg btn-outline-primary mx-4"> 
@@ -116,10 +114,17 @@
                 ?>
                     <div class="card m-2 ">  
                         <div class="card-header">
-                            <h3 class="card-text">Order #<?php echo $order_count; ?></h3>
+                            <h3 class="card-text">Order #<?php echo $order['order_id']; ?></h3>
                             <div class="d-flex flex-wrap gap-sm-y justify-content-between align-items-center">
-                                <span class="badge badge-dark mb-2 text-white"><?php echo $order['date_ordered']; ?></span>
-                                <span class='badge badge-info  px-2 py-1'>On the way</span>
+                                <span class="badge badge-dark text-white"><?php echo $order['date_ordered']; ?></span>
+                                <span class='badge badge-warning  px-2 py-1'>Pending</span>
+                                <?php 
+                                    if($order['type_of_payment'] == "C"){ 
+                                        echo "<span class='badge bg-dark text-white px-2 py-1'>COD</span>";
+                                    }else{
+                                        echo "<span class='badge bg-primary  px-2 py-1 text-white'>Gcash</span>";
+                                    }
+                                ?>
                             </div>
                         </div>
                         <div class="card-body">
@@ -144,32 +149,30 @@
                             <div class="d-flex w-full justify-content-between align-items-center">
                                 <p class="card-text">Total  Price</p>
                                 <p class="card-text"><?php echo $total_price * $order['order_qty']; ?></p>
-                            </div>  
-                            
-                            <button data-target="#modal-<?php echo $order['order_id']; ?>" data-toggle="modal" class="btn btn-info w-100">Delivered</button>
+                            </div> 
+                            <button data-toggle="modal" data-target="#modal-<?php echo $order['order_id']; ?>" href="cancel-order.php?id=<?php echo $order['order_id']; ?>" class="btn btn-danger w-100">Cancel</button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="modal-<?php echo $order['order_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModal3Label">Confirmation</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h3>Confirm Cancel Order #<?php echo $order['order_id']; ?>?</h3>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button> -->
+                                            <a href="cancel-order.php?id=<?php echo $order['order_id']; ?>"  class="btn btn-info">Confirm</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
                         </div>
                     </div> 
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="modal-<?php echo $order['order_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModal3Label">Confirmation</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <h3>Confirm Order #<?php echo $order['order_id']; ?> already delivered?</h3>
-                                </div>
-                                <div class="modal-footer">
-                                    <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button> -->
-                                    <a href="complete.php?id=<?php echo $order['order_id']; ?>"  class="btn btn-info">Confirm</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 <?php 
                     }
                 ?>

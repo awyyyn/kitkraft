@@ -65,7 +65,7 @@
     
 </head>
 <body> 
-    <nav style="z-index:10" class=" navbar fixed-top  navbar-expand-lg   navbar-light bg-light">
+    <nav style="z-index:10" class=" navbar fixed-top  shadow-lg navbar-expand-lg   navbar-light bg-light">
         
         <a class="navbar-brand" href="./index.php">KitKraft</a>
 
@@ -75,12 +75,15 @@
  
         <div class="navbar-collapse collapse " id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto mt-2 mt-md-0">
-                <li  class="nav-item active ">
-                    <a class="nav-link"  href="./index.php">Customize your own gift </a>
+                <li  class="nav-item  ">
+                    <a class="nav-link"  href="./index.php">Home</a>
                 </li>  
-                <li  class="nav-item ">
-                    <a class="nav-link"  href="./to-receive.php">To receive</a>
-                </li>  
+                <li  class="nav-item  active">
+                    <a class="nav-link "  href="./customize.php">Customize your own gift </a>
+                </li>    
+                <li  class="nav-item  ">
+                    <a class="nav-link"  href="./orders.php">My Orders</a>
+                </li>   
             </ul>
             <form class="form-inline my-lg-0 mr-3" action="./search.php" method="get">
                 <input class="form-control form-control-sm mr-sm-2 " type="text" name="search" placeholder="Search" aria-label="Search">

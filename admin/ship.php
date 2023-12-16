@@ -18,9 +18,9 @@
 
     
     if(mysqli_query($conn, $sql)){
-        header("location: ./orders.php?success=Order cancelled successfully");
+        header("location: ./otw.php?success=Order cancelled successfully");
     }else{
-        header("location: ./orders.php?error=Something went wrong");
+        header("location: ./ship.php?error=Something went wrong");
     }
 
 ?>
