@@ -97,42 +97,8 @@
 
     </nav>
     <div class="container-fluid padding-x pb-5 mt-5 pt-5"> 
-        <div class="row  py-4  ">  
-            <div class="col mb-4" > 
-                <?php 
-                    $get_pending_order_sql = "SELECT COUNT(*) FROM orders where user_id=".$_SESSION['user_id']." AND order_status='P' LIMIT 1;";
-                    $get_pending_order_exec = mysqli_query($conn, $get_pending_order_sql);
-                    $pending_result = mysqli_fetch_row($get_pending_order_exec);
-                   
-                    $get_past_order_sql = "SELECT COUNT(*) FROM orders where user_id=".$_SESSION['user_id']." AND order_status='D' LIMIT 1;";
-                    $get_past_order_exec = mysqli_query($conn, $get_past_order_sql);
-                    $past_result = mysqli_fetch_row($get_past_order_exec);
-                   
-                ?>
-                <a href="pending-orders.php" class="text-white ">
-                    <button class="btn btn-info position-relative">
-                        <?php 
-                            if($pending_result[0] > 0){
-                                echo "<span class='badge badge-danger  badge-pill position-absolute' style='top: -8px;right:-5px'>" . $pending_result[0] .  "</span>";
-                            }
-                        ?>
-                        Pending Orders  
-                    </button>
-                </a>
-                <a href="past-orders.php" class="text-white">
-                    <button class="btn btn-secondary ml-4 position-relative">
-                        <?php 
-                            // if($past_result[0] > 0){
-                            //     echo "<span class='badge badge-danger  badge-pill position-absolute' style='top: -8px;right:-5px'>" . $pending_result[0] .  "</span>";
-                            // }
-                        ?>
-                        Past Orders 
-                    </button>
-                </a>
-            </div>   
-        </div>  
       
-        <div class="row justify-content-around   ">
+        <div class="row justify-content-around mt-5 pt-5  ">
             <div class="col-12 col-lg-3 bg-white shadow-lg rounded-lg"> 
                 <h3 class="mt-1 py-2 color-1">Order Summary</h3>  
                 <table class="table">
@@ -186,7 +152,12 @@
                         if(!empty($_GET['step_4'])){
                             echo "<input type=\"hidden\" name=\"step_4\" value='" . $_GET['step_4'] . "' />";
                         } 
+
+                        
                     ?>
+
+                    
+                    <input hidden value="<?php echo $total_price * $_GET['quantity']; ?>" name="total_price" />
                     <input hidden value="<?php echo $_GET['quantity']; ?>" name="quantity" />
                     <div class="mb-3">
                         <label for="p-method">Payment method</label>

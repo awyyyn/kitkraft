@@ -34,10 +34,11 @@
     } 
     $quantity = $_POST['quantity'];
     $payment = $_POST['payment'];
+    $total_price = $_POST['total_price'];
 
     if(isset($_POST['checkout'])){
 
-        $sql = "INSERT INTO `orders`(`user_id`, `step1`, `step2`, `step3`, `step4`, `order_qty`, `order_status`, `type_of_payment`) VALUES ('$id','$step1','$step2','$step3','$step4','$quantity','P', '$payment');";
+        $sql = "INSERT INTO `orders`(`user_id`, `step1`, `step2`, `step3`, `step4`, `order_qty`, `order_status`, `type_of_payment`, `price`) VALUES ('$id','$step1','$step2','$step3','$step4','$quantity','P', '$payment', '$total_price');";
 
        /*  function checkStock ($param1, $q) {
             include '../db_connection.php';

@@ -104,7 +104,41 @@
     </style>
 </head>
 <body> 
-  
+    <nav style="z-index:10" class=" navbar fixed-top  shadow-lg navbar-expand-lg   navbar-light bg-light">
+        
+        <a class="navbar-brand" href="./index.php">KitKraft</a>
+
+        <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+ 
+        <div class="navbar-collapse collapse " id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+                <li  class="nav-item active ">
+                    <a class="nav-link"  href="./index.php">Home</a>
+                </li>  
+                <li  class="nav-item  ">
+                    <a class="nav-link"  href="./manage.php">Manage Material</a>
+                </li>    
+                <li  class="nav-item  ">
+                    <a class="nav-link"  href="./orders.php">Manage Orders</a>
+                </li>   
+                
+                <li  class="nav-item  ">
+                    <a class="nav-link"  href="./reports.php">Reports</a>
+                </li>   
+            </ul>
+            <form class="form-inline my-lg-0 mr-3" action="./search.php" method="get">
+                <input class="form-control form-control-sm mr-sm-2 " type="text" name="search" placeholder="Search" aria-label="Search">
+                <button class="form-control btn btn-sm btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            
+            <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item btn btn-sm btn-outline-danger d-block shadow-sm"> Log out </a> 
+            
+        </div>
+
+
+    </nav>   
     <div class="container-home mt-5 pt-5 position-relative" > 
         <div class="welcome">
             <h1 class="title font-weight-bolder">Welcome to Kitkraft - <br  class="d-none  d-md-block" />Your Gateway to Personalized Delight! </h1>

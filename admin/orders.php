@@ -34,39 +34,41 @@
     
 </head>
 <body> 
-    <nav style="z-index:10" class=" navbar fixed-top  navbar-expand-lg   navbar-light bg-light">
-    
+    <nav style="z-index:10" class=" navbar fixed-top  shadow-lg navbar-expand-lg   navbar-light bg-light">
+        
         <a class="navbar-brand" href="./index.php">KitKraft</a>
 
         <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-
-        <div class="navbar-collapse collapse " id="navbarTogglerDemo02" style="">
+ 
+        <div class="navbar-collapse collapse " id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto mt-2 mt-md-0">
-                <li class="nav-item ">
-                    <a class="nav-link " href="./index.php">Manage Materials </a>
+                <li  class="nav-item  ">
+                    <a class="nav-link"  href="./index.php">Home</a>
                 </li>  
-                <li class="nav-item ">
-                    <a class="nav-link" href="./users.php">Users </a>
-                </li>  
-                <li class="nav-item active"> 
-                    <a class="nav-link" href="./orders.php">Orders </a>
-                </li>  
+                <li  class="nav-item  ">
+                    <a class="nav-link"  href="./manage.php">Manage Material</a>
+                </li>    
+                <li  class="nav-item  active">
+                    <a class="nav-link"  href="./orders.php">Manage Orders</a>
+                </li>   
+                
+                <li  class="nav-item  ">
+                    <a class="nav-link"  href="./reports.php">Reports</a>
+                </li>   
             </ul>
-            
-            
-          
             <form class="form-inline my-lg-0 mr-3" action="./search.php" method="get">
                 <input class="form-control form-control-sm mr-sm-2 " type="text" name="search" placeholder="Search" aria-label="Search">
                 <button class="form-control btn btn-sm btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-             
-            <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item mx-4"> Log out </a> 
             
-        </div> 
-    </nav>
+            <a href="../logout.php?id=<?php echo $_SESSION['user_id']; ?>" class="nav-item btn btn-sm btn-outline-danger d-block shadow-sm"> Log out </a> 
+            
+        </div>
+
+
+    </nav>   
     
     
     <div class="container py-5 mt-5">
@@ -116,7 +118,7 @@
                 ?>
                     <div class="card m-2 ">  
                         <div class="card-header">
-                            <h3 class="card-text">Order #<?php echo $order_count; ?></h3>
+                            <h3 class="card-text">Order #<?php echo $order['order_id']; ?></h3>
                             <div class="d-flex flex-wrap gap-sm-y gap-y justify-content-between align-items-center">
                                 <span class="badge badge-dark  text-white"><?php echo $order['date_ordered']; ?></span>
                                 <?php
@@ -152,6 +154,7 @@
                                 <div class="d-flex w-full justify-content-between align-items-center">
                                     <p class="card-text"><?php  echo $fetch_material['material_name']; ?> </p>
                                     <p class="card-text"><?php  echo $fetch_material['material_price']; ?> </p>
+
                                 </div>
                             <?php  
                                 }
